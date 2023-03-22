@@ -5,7 +5,7 @@ class EmployersController < ApplicationController
 
   def create
     employer = Employer.create(employer_params)
-    render json: employer
+    render json: {id: employer.id}
   end
 
   private
