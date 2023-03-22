@@ -9,6 +9,10 @@ class EmployeesController < ApplicationController
     render json: employee
   end
 
+  def show
+    render json: Employee.find(params[:id]), status: :ok
+  end
+
   private
 
   def employee_params

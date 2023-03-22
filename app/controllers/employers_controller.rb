@@ -5,7 +5,11 @@ class EmployersController < ApplicationController
 
   def create
     employer = Employer.create(employer_params)
-    render json: {id: employer.id}
+    render json: { id: employer.id }
+  end
+
+  def show
+    render json: Employer.find(params[:id]), status: :ok
   end
 
   private
