@@ -3,6 +3,7 @@ class CreateEmployerlocations < ActiveRecord::Migration[7.0]
     create_table :employerlocations do |t|
       t.references :employer, null: false, foreign_key: true
 
+      t.string :country
       t.string :county
 
       t.timestamps
