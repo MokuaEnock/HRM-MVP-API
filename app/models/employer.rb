@@ -7,4 +7,5 @@ class Employer < ApplicationRecord
   has_one :employerfinancial
   has_one :employerdetail
   has_many :departments
+  has_many :employeeschedules
 end
