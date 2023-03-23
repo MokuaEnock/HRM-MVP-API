@@ -5,5 +5,6 @@ class Employer < ApplicationRecord
   has_many :employees
   has_many :employerbanks
   has_one :employerfinancial
+  has_one :employerdetail
   has_many :departments
 end
