@@ -72,6 +72,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_125950) do
 
   create_table "employerbanks", force: :cascade do |t|
     t.integer "employer_id", null: false
+    t.string "bank_name"
+    t.string "branch_name"
+    t.string "account_name"
+    t.string "bank_code"
+    t.string "branch_code"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -88,7 +93,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_125950) do
 
   create_table "employerfinancials", force: :cascade do |t|
     t.integer "employer_id", null: false
-    t.string "name"
+    t.string "nhif_number"
+    t.string "nssf_number"
+    t.string "kra_pin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employer_id"], name: "index_employerfinancials_on_employer_id"

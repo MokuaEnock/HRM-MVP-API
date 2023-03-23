@@ -29,6 +29,6 @@ class EmployerbanksController < ApplicationController
   private
 
   def sch_params
-    params.permit(:bank_name, :branch_name, :account_name, :bank_code, :branch_code)
+    params.permit(:bank_name, :branch_name, :account_name, :bank_code, :branch_code, :employer_id)
   end
 end

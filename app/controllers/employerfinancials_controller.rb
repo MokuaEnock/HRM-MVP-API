@@ -29,6 +29,6 @@ class EmployerfinancialsController < ApplicationController
   private
 
   def sch_params
-    params.permit(:nhif_number, :nssf_number, :kra_pin)
+    params.permit(:nhif_number, :nssf_number, :kra_pin, :employer_id)
   end
 end
