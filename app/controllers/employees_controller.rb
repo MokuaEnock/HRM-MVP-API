@@ -16,6 +16,6 @@ class EmployeesController < ApplicationController
   private
 
   def employee_params
-    params.permit(:employer_id, :name)
+    params.permit(:department_id, :name)
   end
 end

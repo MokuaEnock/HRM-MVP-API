@@ -15,6 +15,6 @@ class DepartmentsController < ApplicationController
   private
 
   def dep_params
-    permit.params(:name, :employer_id)
+    params.permit(:name, :employer_id)
   end
 end
