@@ -1,27 +1,27 @@
 class EmployerbanksController < ApplicationController
   def create
-    schedule = Employeebank.create(sch_params)
+    schedule = Employerbank.create(sch_params)
     render json: schedule
   end
 
   def show
-    schedule = Employeebank.find(params[:id])
+    schedule = Employerbank.find(params[:id])
     render json: schedule
   end
 
   def index
-    schedules = Employeebank.all
+    schedules = Employerbank.all
     render json: schedules
   end
 
   def destroy
-    schedule = Employeebank.find(params[:id])
+    schedule = Employerbank.find(params[:id])
     schedule.destroy
     render json: schedule
   end
 
   def update
-    schedule = Employeebank.find(params[:id])
+    schedule = Employerbank.find(params[:id])
     schedule.update(sch_params)
     render json: schedule
   end
