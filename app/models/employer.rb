@@ -3,4 +3,5 @@ class Employer < ApplicationRecord
 
   has_many :employerlocations
   has_many :employees
+  has_one :employerfinancial
 end
