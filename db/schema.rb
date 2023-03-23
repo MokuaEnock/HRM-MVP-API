@@ -20,11 +20,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_105625) do
   end
 
   create_table "employees", force: :cascade do |t|
-    t.integer "employer_id", null: false
+    t.integer "department_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["employer_id"], name: "index_employees_on_employer_id"
+    t.index ["department_id"], name: "index_employees_on_department_id"
   end
 
   create_table "employerbanks", force: :cascade do |t|
@@ -37,6 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_105625) do
 
   create_table "employerdetails", force: :cascade do |t|
     t.integer "employer_id", null: false
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employer_id"], name: "index_employerdetails_on_employer_id"
@@ -68,7 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_105625) do
   end
 
   add_foreign_key "departments", "employers"
-  add_foreign_key "employees", "employers"
+  add_foreign_key "employees", "departments"
   add_foreign_key "employerbanks", "employers"
   add_foreign_key "employerdetails", "employers"
   add_foreign_key "employerfinancials", "employers"
