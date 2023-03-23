@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_032452) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_23_033342) do
   create_table "employees", force: :cascade do |t|
     t.integer "employer_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employer_id"], name: "index_employees_on_employer_id"
+  end
+
+  create_table "employerbanks", force: :cascade do |t|
+    t.integer "employer_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employer_id"], name: "index_employerbanks_on_employer_id"
   end
 
   create_table "employerfinancials", force: :cascade do |t|
@@ -45,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_032452) do
   end
 
   add_foreign_key "employees", "employers"
+  add_foreign_key "employerbanks", "employers"
   add_foreign_key "employerfinancials", "employers"
   add_foreign_key "employerlocations", "employers"
 end
