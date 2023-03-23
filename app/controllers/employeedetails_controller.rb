@@ -11,6 +11,6 @@ class EmployeedetailsController < ApplicationController
   private
 
   def det_params
-    params.permit(:name, :employee_id)
+    params.permit(:first_name, :second_name, :third_name, :national_id, :job_role, :employee_id)
   end
 end
