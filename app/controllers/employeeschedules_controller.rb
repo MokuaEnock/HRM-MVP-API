@@ -29,6 +29,15 @@ class EmployeeschedulesController < ApplicationController
     render json: schedule
   end
 
+  def update
+    # find the Employeeschedule by its ID
+    schedule = Employeeschedule.find(params[:id])
+    # update the found Employeeschedule instance with permitted parameters from sch_params method
+    schedule.update(sch_params)
+    # render the updated schedule as JSON
+    render json: schedule
+  end
+
   private
 
   def sch_params
