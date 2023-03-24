@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_180723) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_24_171720) do
+  create_table "attendances", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.integer "department_id", null: false
+    t.datetime "date"
+    t.datetime "time_in"
+    t.datetime "time_out"
+    t.boolean "is_present"
+    t.boolean "is_late"
+    t.boolean "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_attendances_on_department_id"
+    t.index ["employee_id"], name: "index_attendances_on_employee_id"
+  end
+
   create_table "departmentdetails", force: :cascade do |t|
     t.integer "department_id", null: false
     t.string "name"
@@ -135,6 +150,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_180723) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "attendances", "departments"
+  add_foreign_key "attendances", "employees"
   add_foreign_key "departmentdetails", "departments"
   add_foreign_key "departments", "employers"
   add_foreign_key "employeebanks", "employees"
