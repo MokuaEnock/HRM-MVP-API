@@ -9,7 +9,8 @@ class EmployersController < ApplicationController
   end
 
   def show
-    render json: Employer.find(params[:id]), status: :ok
+    @employer = Employer.find(params[:id])
+    render json: @employer, serializer: EmployerSerializer
   end
 
   private
