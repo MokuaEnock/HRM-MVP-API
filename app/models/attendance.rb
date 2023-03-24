@@ -1,2 +1,2 @@
 class Attendance < ApplicationRecord
-end
+  belongs_to :employerend
