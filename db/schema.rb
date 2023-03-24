@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_125950) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_23_180723) do
   create_table "departmentdetails", force: :cascade do |t|
     t.integer "department_id", null: false
     t.string "name"
@@ -49,6 +49,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_125950) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeedetails_on_employee_id"
+  end
+
+  create_table "employeefinancials", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeefinancials_on_employee_id"
+  end
+
+  create_table "employeelocations", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "latitide"
+    t.string "longitude"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeelocations_on_employee_id"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -122,6 +139,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_125950) do
   add_foreign_key "departments", "employers"
   add_foreign_key "employeebanks", "employees"
   add_foreign_key "employeedetails", "employees"
+  add_foreign_key "employeefinancials", "employees"
+  add_foreign_key "employeelocations", "employees"
   add_foreign_key "employees", "departments"
   add_foreign_key "employeeschedules", "employees"
   add_foreign_key "employerbanks", "employers"
