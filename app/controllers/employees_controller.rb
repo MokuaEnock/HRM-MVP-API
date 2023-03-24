@@ -1,7 +1,7 @@
 class EmployeesController < ApplicationController
   def index
     employees = Employee.all
-    render json: employees
+    render json: employees, each_serializer: EmployeeSerializer
   end
 
   def create
@@ -10,7 +10,8 @@ class EmployeesController < ApplicationController
   end
 
   def show
-    render json: Employee.find(params[:id]), status: :ok
+    @employee = Employee.find(params[:id])
+    render json: @employee, serializer: EmployeeSerializer
   end
 
   private
