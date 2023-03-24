@@ -1,3 +1,5 @@
 class DepartmentSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :name
+
+  belongs_to :employer
 end
