@@ -5,7 +5,8 @@ class DepartmentsController < ApplicationController
   end
 
   def index
-    render json: Department.all
+    @department = Department.all
+    render json: @departments, each_serilizer: DepartmentSerializer
   end
 
   def show
