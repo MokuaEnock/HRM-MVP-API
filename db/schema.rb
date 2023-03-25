@@ -61,7 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
     t.string "job_role"
     t.string "gender"
     t.string "job_group"
-    t.string "phone"
+    t.integer "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeedetails_on_employee_id"

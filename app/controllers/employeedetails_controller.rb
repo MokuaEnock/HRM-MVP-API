@@ -1,12 +1,12 @@
 class EmployeedetailsController < ApplicationController
   def index
     details = Employeedetail.all
-    render json: details, each_serializer: :EmployeedetailsSerializer
+    render json: details, each_serializer: EmployeedetailsSerializer
   end
 
   def show
     details = Employeedetail.find(params[:id])
-    render json: details #, serializer: :EmployeedetailsSerializer
+    render json: details, # serializer: EmployeedetailsSerializer
   end
 
   def create
