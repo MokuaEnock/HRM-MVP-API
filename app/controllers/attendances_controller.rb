@@ -1,6 +1,7 @@
 class AttendancesController < ApplicationController
   def index
-    render json: {}
+    attendance = Attendance.all
+    render json: attendance, each_serializer: AttendanceSerializer
   end
 
   def create
@@ -10,7 +11,7 @@ class AttendancesController < ApplicationController
 
   def show
     attendace = Attendance.find(params[:id])
-    render json: attendace
+    render json: attendace, serializer: AttendanceSerializer
   end
 
   def update
