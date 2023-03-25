@@ -1,11 +1,17 @@
 class EmployeedetailsController < ApplicationController
-  def create
-    details = Employeedetail.create(det_params)
-    render json: details
+  def index
+    details = Employeedetail.all
+    render json: details, each_serializer: :EmployeedetailsSerializer
   end
 
-  def index
-    render json: Employeedetail.all
+  def show
+    details = Employeedetail.find(params[:id])
+    render json: details, serializer: :EmployeedetailsSerializer
+  end
+
+  def create
+    detail = Employee.create(det_params)
+    render json: detail
   end
 
   private
