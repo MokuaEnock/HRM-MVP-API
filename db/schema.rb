@@ -69,6 +69,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
 
   create_table "employeefinancials", force: :cascade do |t|
     t.integer "employee_id", null: false
+    t.string "nssf_number"
+    t.string "nhif_number"
+    t.string "kra_pin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeefinancials_on_employee_id"
