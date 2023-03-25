@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_25_182329) do
   create_table "attendances", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.datetime "date"
@@ -108,6 +108,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
     t.index ["employee_id"], name: "index_employeeschedules_on_employee_id"
   end
 
+  create_table "employeetasks", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "name"
+    t.string "description"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeetasks_on_employee_id"
+  end
+
   create_table "employerbanks", force: :cascade do |t|
     t.integer "employer_id", null: false
     t.string "bank_name"
@@ -189,6 +200,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
   add_foreign_key "employeelocations", "employees"
   add_foreign_key "employees", "departments"
   add_foreign_key "employeeschedules", "employees"
+  add_foreign_key "employeetasks", "employees"
   add_foreign_key "employerbanks", "employers"
   add_foreign_key "employerdetails", "employers"
   add_foreign_key "employerfinancials", "employers"
