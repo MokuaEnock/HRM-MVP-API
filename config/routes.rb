@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :employeetasks
   resources :payrates
   resources :payslips
   resources :attendances

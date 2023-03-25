@@ -6,4 +6,5 @@ class EmployeeSerializer < ActiveModel::Serializer
   has_one :employeebank
   has_many :employeelocations
   has_one :employeefinancial
+  has_many :employeetasks
 end
