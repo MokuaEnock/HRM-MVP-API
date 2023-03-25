@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_24_171720) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
   create_table "attendances", force: :cascade do |t|
     t.integer "employee_id", null: false
-    t.integer "department_id", null: false
     t.datetime "date"
     t.datetime "time_in"
     t.datetime "time_out"
@@ -22,7 +21,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_171720) do
     t.boolean "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_attendances_on_department_id"
     t.index ["employee_id"], name: "index_attendances_on_employee_id"
   end
 
@@ -150,7 +148,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_171720) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "attendances", "departments"
+  create_table "payrates", force: :cascade do |t|
+    t.integer "employer_id", null: false
+    t.string "name"
+    t.string "description"
+    t.decimal "daily_charge", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employer_id"], name: "index_payrates_on_employer_id"
+  end
+
+  create_table "payslips", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.date "month"
+    t.integer "basic_pay"
+    t.integer "deductions", default: 0
+    t.integer "paye", default: 0
+    t.integer "nhif", default: 0
+    t.integer "nssf", default: 0
+    t.integer "net_pay", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_payslips_on_employee_id"
+  end
+
   add_foreign_key "attendances", "employees"
   add_foreign_key "departmentdetails", "departments"
   add_foreign_key "departments", "employers"
@@ -164,4 +185,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_171720) do
   add_foreign_key "employerdetails", "employers"
   add_foreign_key "employerfinancials", "employers"
   add_foreign_key "employerlocations", "employers"
+  add_foreign_key "payrates", "employers"
+  add_foreign_key "payslips", "employees"
 end

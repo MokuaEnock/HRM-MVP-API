@@ -7,6 +7,9 @@ class CreateEmployeedetails < ActiveRecord::Migration[7.0]
       t.string :third_name
       t.integer :national_id
       t.string :job_role
+      t.string :gender
+      t.string :job_group
+      t.string :phone
 
       t.timestamps
     end
