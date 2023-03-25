@@ -17,6 +17,6 @@ class EmployeesController < ApplicationController
   private
 
   def employee_params
-    params.permit(:department_id, :name)
+    params.permit(:department_id, :email, :employee_number, :password, :password_confirmation)
   end
 end

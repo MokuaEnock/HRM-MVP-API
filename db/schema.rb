@@ -59,6 +59,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
     t.string "third_name"
     t.integer "national_id"
     t.string "job_role"
+    t.string "gender"
+    t.string "job_group"
+    t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeedetails_on_employee_id"
@@ -83,7 +86,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_202614) do
 
   create_table "employees", force: :cascade do |t|
     t.integer "department_id", null: false
-    t.string "name"
+    t.string "email"
+    t.string "employee_number"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_employees_on_department_id"
