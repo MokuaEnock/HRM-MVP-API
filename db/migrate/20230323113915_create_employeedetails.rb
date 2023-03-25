@@ -9,7 +9,7 @@ class CreateEmployeedetails < ActiveRecord::Migration[7.0]
       t.string :job_role
       t.string :gender
       t.string :job_group
-      t.string :phone
+      t.integer :phone
 
       t.timestamps
     end

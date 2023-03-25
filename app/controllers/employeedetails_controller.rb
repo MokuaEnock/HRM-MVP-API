@@ -6,17 +6,17 @@ class EmployeedetailsController < ApplicationController
 
   def show
     details = Employeedetail.find(params[:id])
-    render json: details, serializer: :EmployeedetailsSerializer
+    render json: details #, serializer: :EmployeedetailsSerializer
   end
 
   def create
-    detail = Employee.create(det_params)
+    detail = Employeedetail.create(det_params)
     render json: detail
   end
 
   private
 
   def det_params
-    params.permit(:first_name, :second_name, :third_name, :national_id, :job_role, :employee_id)
+    params.permit(:first_name, :second_name, :third_name, :national_id, :job_role, :employee_id, :gender, :job_group, :phone)
   end
 end
