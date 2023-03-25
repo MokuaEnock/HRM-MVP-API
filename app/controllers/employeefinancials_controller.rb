@@ -1,7 +1,7 @@
 class EmployeefinancialsController < ApplicationController
   def index
     financials = Employeefinancial.all
-    render json: financials
+    render json: financials, each_serializer: EmployeefinancialsSerializer
   end
 
   def create
@@ -11,7 +11,7 @@ class EmployeefinancialsController < ApplicationController
 
   def show
     financial = Employeefinancial.find(params[:id])
-    render json: financial
+    render json: financial, serializer: EmployeefinancialsSerializer
   end
 
   private

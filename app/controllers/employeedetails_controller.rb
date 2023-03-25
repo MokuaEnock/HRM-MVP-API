@@ -6,7 +6,7 @@ class EmployeedetailsController < ApplicationController
 
   def show
     details = Employeedetail.find(params[:id])
-    render json: details, # serializer: EmployeedetailsSerializer
+    render json: details, serializer: EmployeedetailsSerializer
   end
 
   def create
