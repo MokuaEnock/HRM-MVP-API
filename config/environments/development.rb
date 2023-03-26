@@ -9,7 +9,8 @@ Rails.application.configure do
   config.cache_classes = false
 
   config.hosts << /.*\.ngrok\.io$/
-  config.hosts << "<hrm>-production.up.railway.app"
+  # config.hosts << "<hrm>-production.up.railway.app"
+  config.hosts << "hrm-production-8348.up.railway.app"
 
   # Do not eager load code on boot.
   config.eager_load = false
