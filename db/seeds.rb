@@ -17,4 +17,5 @@ departments = Department.create([{ employer_id: 1, email: "engineering@gmail.com
 
 employees = Employee.create([{ department_id: 1, email: "mokua@enock.com", employee_number: "zab3", password: "enock", password_confirmation: "enock" },
                              { department_id: 1, email: "leila@kem.com", employee_number: "kem2", password: "enock", password_confirmation: "enock" }])
+
 puts "done seeding"

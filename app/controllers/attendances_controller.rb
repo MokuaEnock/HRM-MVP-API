@@ -32,6 +32,6 @@ class AttendancesController < ApplicationController
   private
 
   def att_params
-    params.permit(:employee_id, :in_time, :out_time, :reason, :timein, :timeout)
+    params.permit(:employee_id, :in_time, :out_time, :reason, :timein, :timeout, :date)
   end
 end
