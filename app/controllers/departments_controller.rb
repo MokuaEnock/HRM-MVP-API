@@ -5,12 +5,10 @@ class DepartmentsController < ApplicationController
   end
 
   def index
-    # @department = Department.all
     render json: Department.all
   end
 
   def show
-    # render json: Department.find(params[:id]), status: :ok
     @department = Department.find(params[:id])
     render json: @department, serializer: DepartmentSerializer
   end
