@@ -6,8 +6,8 @@ class CreateAttendances < ActiveRecord::Migration[7.0]
       t.decimal :in_time, precision: 10, scale: 2
       t.decimal :out_time, precision: 10, scale: 2
       t.string :reason
-      t.string :timein
-      t.string :timeout
+      t.string :timeIn
+      t.string :timeOut
       t.string :date
 
       t.timestamps

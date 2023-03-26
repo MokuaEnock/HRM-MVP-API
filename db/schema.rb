@@ -16,9 +16,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
     t.decimal "in_time", precision: 10, scale: 2
     t.decimal "out_time", precision: 10, scale: 2
     t.string "reason"
-    t.datetime "timein"
-    t.datetime "timeout"
-    t.date "date"
+    t.string "timeIn"
+    t.string "timeOut"
+    t.string "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_attendances_on_employee_id"
