@@ -15,5 +15,6 @@ employers = Employer.create([{ name: "Star Wars", email: "star@gmail.com", passw
 departments = Department.create([{ employer_id: 1, email: "engineering@gmail.com", name: "Engineering", password: "engineering", password_confirmation: "engineering" },
                                  { employer_id: 2, email: "customer@gmail.com", name: "Customer", password: "engineering", password_confirmation: "engineering" }])
 
-employees = Employee.create([{department}])
+employees = Employee.create([{ department_id: 1, email: "mokua@enock.com", employee_number: "zab3", password: "enock", password_confirmation: "enock" },
+                             { department_id: 1, email: "leila@kem.com", employee_number: "kem2", password: "enock", password_confirmation: "enock" }])
 puts "done seeding"
