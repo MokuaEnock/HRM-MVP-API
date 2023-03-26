@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
     t.string "timeIn"
     t.string "timeOut"
     t.string "date"
-    t.string "total_hours"
+    t.integer "total_hours"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_attendances_on_employee_id"

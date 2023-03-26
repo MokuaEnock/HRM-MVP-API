@@ -9,7 +9,7 @@ class CreateAttendances < ActiveRecord::Migration[7.0]
       t.string :timeIn
       t.string :timeOut
       t.string :date
-      t.string :total_hours
+      t.integer :total_hours
 
       t.timestamps
     end
