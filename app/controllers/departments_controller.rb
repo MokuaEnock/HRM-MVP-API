@@ -18,6 +18,6 @@ class DepartmentsController < ApplicationController
   private
 
   def dep_params
-    params.permit(:name, :employer_id)
+    params.permit(:name, :email, :password, :password_confirmation, :employer_id)
   end
 end
