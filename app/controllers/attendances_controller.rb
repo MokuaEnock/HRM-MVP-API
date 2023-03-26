@@ -5,7 +5,7 @@ class AttendancesController < ApplicationController
   end
 
   def create
-    attendace = Attenndance.create(att_params)
+    attendace = Attendance.create(att_params)
     render json: attendace
   end
 
@@ -16,7 +16,6 @@ class AttendancesController < ApplicationController
 
   def update
     attendence = Attendance.find(params[:id])
-
     if attendence.update(user_params)
       render json: { message: "User updated successfully" }, status: :ok
     else
@@ -33,6 +32,6 @@ class AttendancesController < ApplicationController
   private
 
   def att_params
-    params.permit(:date, :department_id, :employee_id, :time_in, :time_out, :is_present, :is_late, :reason)
+    params.permit(:employee_id, :in_time, :out_time, :reason, :timein, :timeout)
   end
 end

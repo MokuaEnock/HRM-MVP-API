@@ -1,4 +1,3 @@
 class AttendanceSerializer < ActiveModel::Serializer
-  attributes :id, :date, :time_in, :time_out, :is_present, :is_late, :reason
-  
+  attributes :id, :in_time, :out_time, :reason, :timein, :timeout
 end
