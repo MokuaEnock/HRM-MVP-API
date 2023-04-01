@@ -20,12 +20,12 @@ class Attendance < ApplicationRecord
 
   # Calculate the pay for this time sheet based on the total_worked_hours and whether it's a weekday or weekend
   def calculate_pay
-    if weekday? && total_worked_hours > 0
-      self.pay = 772
-    elsif weekend? && total_worked_hours > 0
-      self.pay = total_worked_hours * 2 * 772
-    else
+    if total_worked_hours == 0
       self.pay = 0.0
+    elsif weekday?
+      self.pay = 776.0
+    elsif weekend?
+      self.pay = 2 * 776.0
     end
   end
 
