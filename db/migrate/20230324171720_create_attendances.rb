@@ -6,8 +6,8 @@ class CreateAttendances < ActiveRecord::Migration[7.0]
       t.decimal :total_worked_hours, precision: 10, scale: 2, default: 0.0, null: false
       t.decimal :pay, precision: 10, scale: 2, default: 0.0, null: false
       t.string :reason
-      t.time :clock_in
-      t.time :clock_out
+      t.time :time_in
+      t.time :time_out
       t.date :date
 
       t.timestamps

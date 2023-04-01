@@ -2,14 +2,14 @@ class AttendancesController < ApplicationController
   # GET /time_sheets
   def index
     # Retrieve all time sheets from the database, including the associated employee records
-    @attendances = TimeSheet.includes(:employee).all
+    @attendances = Attendance.includes(:employee).all
     render json: @attendances
   end
 
   # POST /time_sheets
   def create
-    # Instantiate a new TimeSheet object with the given parameters
-    @attendance = TimeSheet.new(time_sheet_params)
+    # Instantiate a new Attendance object with the given parameters
+    @attendance = Attendance.new(time_sheet_params)
 
     # Calculate the total worked hours and pay for this time sheet
     @attendance.calculate_total_worked_hours

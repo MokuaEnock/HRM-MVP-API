@@ -13,12 +13,12 @@
 ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
   create_table "attendances", force: :cascade do |t|
     t.integer "employee_id", null: false
-    t.decimal "total_worked_hours", precision: 10, scale: 2
-    t.decimal "pay", precision: 10, scale: 2
+    t.decimal "total_worked_hours", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "pay", precision: 10, scale: 2, default: "0.0", null: false
     t.string "reason"
-    t.string "time_in"
-    t.string "time_out"
-    t.string "date"
+    t.time "time_in"
+    t.time "time_out"
+    t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_attendances_on_employee_id"
