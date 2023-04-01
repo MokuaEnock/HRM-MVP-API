@@ -1,37 +1,32 @@
 class AttendancesController < ApplicationController
+  # GET /time_sheets
   def index
-    attendance = Attendance.all
-    render json: attendance, each_serializer: AttendanceSerializer
+    # Retrieve all time sheets from the database, including the associated employee records
+    @attendances = TimeSheet.includes(:employee).all
+    render json: @attendances
   end
 
+  # POST /time_sheets
   def create
-    attendace = Attendance.create(att_params)
-    render json: attendace
-  end
+    # Instantiate a new TimeSheet object with the given parameters
+    @attendance = TimeSheet.new(time_sheet_params)
 
-  def show
-    attendace = Attendance.find(params[:id])
-    render json: attendace, serializer: AttendanceSerializer
-  end
+    # Calculate the total worked hours and pay for this time sheet
+    @attendance.calculate_total_worked_hours
+    @attendance.calculate_pay
 
-  def update
-    attendence = Attendance.find(params[:id])
-    if attendence.update(user_params)
-      render json: { message: "User updated successfully" }, status: :ok
+    # Save the time sheet to the database
+    if @attendance.save
+      render json: @attendance, status: :created
     else
-      render json: { errors: attendence.errors.full_messages }, status: :unprocessable_entity
+      render json: @attendance.errors, status: :unprocessable_entity
     end
-  end
-
-  def destroy
-    attendance = Attendance.find(params[:id])
-    attendance.destroy
-    render json: { message: "Attendance deleted" }, status: :ok
   end
 
   private
 
-  def att_params
-    params.permit(:employee_id, :in_time, :out_time, :reason, :timeIn, :timeOut, :date, :total_hours)
+  # Only allow a trusted parameter "white list" through
+  def time_sheet_params
+    params.require(:time_sheet).permit(:employee_id, :date, :time_in, :time_out)
   end
 end
