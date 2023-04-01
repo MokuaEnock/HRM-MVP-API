@@ -66,15 +66,16 @@ class Payslip < ApplicationRecord
   end
 
   def calculate_nssf_deduction(total_earnings)
-    upper_earning_limit = 18000
-    lower_earning_limit = 6000
-    pensionable_wages = [total_earnings, upper_earning_limit].min - lower_earning_limit
-    employee_contribution = [pensionable_wages * 0.06, upper_earning_limit * 0.06].min
-    employer_contribution = [pensionable_wages * 0.06, upper_earning_limit * 0.06].min
-    total_contribution = employee_contribution + employer_contribution
-    tier_1_contribution = [total_contribution, 720].min
-    tier_2_contribution = [total_contribution - tier_1_contribution, 1440].min
-    return tier_1_contribution + tier_2_contribution
+    # upper_earning_limit = 18000
+    # lower_earning_limit = 6000
+    # pensionable_wages = [total_earnings, upper_earning_limit].min - lower_earning_limit
+    # employee_contribution = [pensionable_wages * 0.06, upper_earning_limit * 0.06].min
+    # employer_contribution = [pensionable_wages * 0.06, upper_earning_limit * 0.06].min
+    # total_contribution = employee_contribution + employer_contribution
+    # tier_1_contribution = [total_contribution, 720].min
+    # tier_2_contribution = [total_contribution - tier_1_contribution, 1440].min
+    # return tier_1_contribution + tier_2_contribution
+    return 200
   end
 
   def calculate_total_deductions(taxable_income, total_earnings)

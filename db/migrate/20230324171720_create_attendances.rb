@@ -3,13 +3,12 @@ class CreateAttendances < ActiveRecord::Migration[7.0]
     create_table :attendances do |t|
       t.references :employee, null: false, foreign_key: true
 
-      t.decimal :in_time, precision: 10, scale: 2
-      t.decimal :out_time, precision: 10, scale: 2
+      t.decimal :total_worked_hours, precision: 10, scale: 2
+      t.decimal :pay, precision: 10, scale: 2
       t.string :reason
-      t.string :timeIn
-      t.string :timeOut
+      t.string :time_in
+      t.string :time_out
       t.string :date
-      t.integer :total_hours
 
       t.timestamps
     end
