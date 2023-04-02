@@ -192,13 +192,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
 
   create_table "payslips", force: :cascade do |t|
     t.integer "employee_id", null: false
-    t.date "month"
-    t.integer "basic_pay"
-    t.integer "deductions", default: 0
-    t.integer "paye", default: 0
-    t.integer "nhif", default: 0
-    t.integer "nssf", default: 0
-    t.integer "net_pay", default: 0
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.decimal "nhif", precision: 10, scale: 2, null: false
+    t.decimal "nssf", precision: 10, scale: 2, null: false
+    t.decimal "paye", precision: 10, scale: 2, null: false
+    t.decimal "taxable_income", precision: 10, scale: 2, null: false
+    t.integer "payslip_period"
+    t.integer "gross_salary"
+    t.integer "net_salary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_payslips_on_employee_id"

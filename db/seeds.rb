@@ -19,7 +19,7 @@ employees = Employee.create([{ department_id: 1, email: "mokua@enock.com", emplo
                              { department_id: 1, email: "leila@kem.com", employee_number: "kem2", password: "enock", password_confirmation: "enock" }])
 
 # Create an array of all the dates from January 1st until today, excluding Sundays and occasional Saturdays
-dates = (Date.parse("2022-01-01")..Date.today).select { |date| date.on_weekday? || (date.saturday? && rand(10) < 3) }
+dates = (Date.parse("2023-01-01")..Date.today).select { |date| date.on_weekday? || (date.saturday? && rand(10) < 3) }
 
 # Create seed data for each date for the two employees
 dates.each do |date|
