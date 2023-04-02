@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   resources :disciplinaries
   resources :employeetasks
   resources :payrates
-  resources :payslips
+  resources :payslips do
+    collection do
+      get "totals"
+    end
+  end
   resources :attendances
   resources :employeelocations
   resources :employeefinancials
