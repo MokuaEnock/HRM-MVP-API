@@ -10,6 +10,7 @@ class CreatePayslips < ActiveRecord::Migration[7.0]
       t.decimal :paye, precision: 10, scale: 2, null: false
       t.decimal :taxable_income, precision: 10, scale: 2, null: false
       t.number :payslip_period
+      t.number :gross_salary
 
       t.timestamps
     end

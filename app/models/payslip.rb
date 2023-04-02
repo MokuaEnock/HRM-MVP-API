@@ -4,6 +4,11 @@ class Payslip < ApplicationRecord
   def calculate_payslip_period
     (end_date - start_date).to_i + 1
   end
+
+  def calculate_gross_salary
+    attendances = Attendance.where(employer_id: employee_id, date: start_date..end_date)
+    total_pay = attendances.sum(:pay)
+  end
 end
 
 # def gross_pay
