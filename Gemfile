@@ -48,3 +48,4 @@ end
 
 gem "bcrypt", "~> 3.1"
 gem 'active_model_serializers'
+gem 'swagger-blocks'
