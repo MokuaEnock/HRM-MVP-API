@@ -3,6 +3,8 @@ class PayslipsController < ApplicationController
   end
 
   def create
+    payslip = Payslip.new(pay_params)
+    payslip.payslip_period = payslip.calculate_payslip_period
   end
 
   def show
