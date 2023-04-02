@@ -29,11 +29,18 @@ class PayslipsController < ApplicationController
   end
 
   def show
-    payslip = Payslip.find(params[:id])
-    render json: {
-      payslip: payslip,
-      attendance_data: payslip.attendance_data,
-    }, status: :ok
+    employee = Employee.find(params[:id])
+    payslips = employee.payslips
+    payslip_data = []
+
+    payslips.each do |payslip|
+      payslip_data << {
+        payslip: payslip,
+        attendance_data: payslip.calculate_attendance_data,
+      }
+    end
+
+    render json: payslip_data, status: :ok
   end
 
   private
