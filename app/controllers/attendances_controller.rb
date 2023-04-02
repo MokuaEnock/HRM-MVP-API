@@ -51,6 +51,30 @@ class AttendancesController < ApplicationController
         summary[year][month][:absent_days] += 1
       end
     end
+
+    # Loop through each month to record the days the employee was absent except Sundays
+    summary.each do |year, months|
+      months.each do |month_num, month_data|
+        month = Date.new(year, month_num)
+        absent_days = 0
+
+        # Loop through each day of the month
+        (1..month.end_of_month.day).each do |day|
+          date = Date.new(year, month_num, day)
+
+          # Check if the date is a Sunday or if there is an attendance record for this date
+          if date.sunday? || attendances.any? { |attendance| attendance.date == date }
+            next
+          else
+            absent_days += 1
+          end
+        end
+
+        # Record the absent days in the summary
+        summary[year][month_num][:absent_days] = absent_days
+      end
+    end
+
     render json: summary
   end
 
