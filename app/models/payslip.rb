@@ -74,31 +74,24 @@ class Payslip < ApplicationRecord
 
   def calculate_attendance_data
     attendance_dates = (start_date..end_date).to_a
-
     attendances = Attendance.where(employee_id: employee_id, date: start_date..end_date)
-
     attendance_hours = {}
     attendance_pay = {}
-
     attendance_dates.each do |date|
       attendance_hours[date] = 0
       attendance_pay[date] = 0
     end
-
     attendances.each do |attendance|
       attendance_hours[attendance.date] = attendance.total_worked_hours
       attendance_pay[attendance.date] = attendance.pay
     end
-
     attendance_hours = attendance_hours.sort.to_h
     attendance_pay = attendance_pay.sort.to_h
-
     attendance_data = {
       dates: attendance_hours.keys,
       hours_worked: attendance_hours.values,
       pay: attendance_pay.values
     }
-
     return attendance_data
   end
 end
