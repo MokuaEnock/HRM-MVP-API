@@ -5,20 +5,27 @@ class PayslipsController < ApplicationController
   end
 
   def create
-    payslip = Payslip.new(pay_params)
-    payslip.payslip_period = payslip.calculate_payslip_period
-    payslip.gross_salary = payslip.calculate_gross_salary
-    payslip.nhif = payslip.calculate_nhif_deduction
-    payslip.nssf = payslip.calculate_nssf_deduction
-    payslip.taxable_income = payslip.calculate_taxable_income
-    payslip.paye = payslip.calculate_paye
-    payslip.net_salary = payslip.calculate_net_salary
+    employees = Employee.all
 
-    if payslip.save
-      render json: payslip, status: :created
-    else
-      render json: payslip.errors, status: :unprocessable_entity
+    employees.each do |employee|
+      payslip = Payslip.new(pay_params)
+      payslip.employee = employee
+      payslip.payslip_period = payslip.calculate_payslip_period
+      payslip.gross_salary = payslip.calculate_gross_salary
+      payslip.nhif = payslip.calculate_nhif_deduction
+      payslip.nssf = payslip.calculate_nssf_deduction
+      payslip.taxable_income = payslip.calculate_taxable_income
+      payslip.paye = payslip.calculate_paye
+      payslip.net_salary = payslip.calculate_net_salary
+
+      if payslip.save
+        # do something if the payslip was successfully saved
+      else
+        # do something if there was an error saving the payslip
+      end
     end
+
+    render json: { message: "Payslips generated successfully" }, status: :created
   end
 
   def show
