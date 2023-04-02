@@ -10,8 +10,8 @@ class Payslip < ApplicationRecord
     total_pay = attendances.sum(:pay)
   end
 
-  def nhif_deduction
-    case calculate_gross_salary
+  def calculate_nhif_deduction(gross_salary)
+    case gross_salary
     when 0..5999
       150
     when 6000..7999
@@ -35,44 +35,40 @@ class Payslip < ApplicationRecord
     end
   end
 
-  def nssf_deduction
-    return 200
+  def calculate_nssf_deduction(gross_salary)
+    return 0.06 * [gross_salary, 18000].min
   end
 
   def calculate_taxable_income
-    taxablae_income = calculate_taxable_income - nhif_deduction - nssf_deduction
-
-    if taxable_income <= 0
-      return 0
-    elsif taxable_income <= 12298
-      return taxable_income * 0.1
-    elsif taxable_income <= 23885
-      return (taxable_income - 12298) * 0.15 + 1229.8
-    elsif taxable_income <= 35472
-      return (taxable_income - 23885) * 0.2 + 3204.8
-    elsif taxable_income <= 47059
-      return (taxable_income - 35472) * 0.25 + 5630.8
-    else
-      return (taxable_income - 47059) * 0.3 + 8963.3
-    end
+    taxable_income = calculate_gross_salary - calculate_nhif_deduction(employee.gross_salary) - calculate_nssf_deduction(employee.gross_salary)
+    return [taxable_income, 0].max
   end
 
   def calculate_paye
     taxable_income = calculate_taxable_income
+    paye = 0
+
     if taxable_income <= 12298
       paye = 0.1 * taxable_income
-    elsif taxable_income > 12298 && taxable_income <= 23885
+    elsif taxable_income <= 23885
       paye = 0.15 * (taxable_income - 12298) + 1229.80
-    elsif taxable_income > 23885 && taxable_income <= 35472
-      paye = 0.20 * (taxable_income - 23885) + 3457.80
-    elsif taxable_income > 35472 && taxable_income <= 47059
-      paye = 0.25 * (taxable_income - 35472) + 6028.80
-    elsif taxable_income > 47059 && taxable_income <= 58646
-      paye = 0.30 * (taxable_income - 47059) + 9728.80
+    elsif taxable_income <= 35472
+      paye = 0.2 * (taxable_income - 23885) + 3204.80
+    elsif taxable_income <= 47059
+      paye = 0.25 * (taxable_income - 35472) + 5630.80
     else
-      paye = 0.35 * (taxable_income - 58646) + 14968.80
+      paye = 0.3 * (taxable_income - 47059) + 8963.30
     end
 
-    paye.round(2)
+    return paye.round(2)
+  end
+
+  def calculate_net_salary
+    gross_salary = calculate_gross_salary
+    paye = calculate_paye
+    nhif = calculate_nhif_deduction(employee.gross_salary)
+    nssf = calculate_nssf_deduction(employee.gross_salary)
+    net_salary = gross_salary - paye - nhif - nssf
+    return net_salary.round(2)
   end
 end
