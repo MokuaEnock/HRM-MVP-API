@@ -21,12 +21,23 @@ employees = Employee.create([{ department_id: 1, email: "mokua@enock.com", emplo
 # Create an array of all the dates from January 1st until today, excluding Sundays and occasional Saturdays
 dates = (Date.parse("2023-01-01")..Date.today).select { |date| date.on_weekday? || (date.saturday? && rand(10) < 3) }
 
+dates = (Date.parse("2023-01-01")..Date.today).select { |date| date.on_weekday? || (date.saturday? && rand(10) < 3) }.reject { |date| date.sunday? }
+
+# Define the minimum and maximum hours an employee can attend in a day
+MINIMUM_ATTENDANCE_HOURS = 7
+MAXIMUM_ATTENDANCE_HOURS = 10
+
 # Create seed data for each date for the two employees
 dates.each do |date|
   Employee.all.each do |employee|
+    # Check if employee will attend work on this day
+    next if rand(10) < 3 || (date.saturday? && rand(10) < 7)
+
     # Randomly generate time_in and time_out values within the workday hours
+    attendance_hours = rand(MINIMUM_ATTENDANCE_HOURS..MAXIMUM_ATTENDANCE_HOURS)
     time_in = date + rand(8..9).hours
-    time_out = date + rand(17..18).hours
+    time_out = time_in + attendance_hours.hours
+
     # Create a new attendance record with the employee_id, date, time_in, and time_out
     attendance = Attendance.new(employee_id: employee.id, date: date, time_in: time_in, time_out: time_out)
     attendance.calculate_total_worked_hours
