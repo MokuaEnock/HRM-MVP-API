@@ -43,6 +43,25 @@ class PayslipsController < ApplicationController
     render json: payslip_data, status: :ok
   end
 
+  def totals
+    payslips = Payslip.all
+    gross_salary_total = payslips.sum(:gross_salary)
+    nhif_total = payslips.sum(:nhif)
+    nssf_total = payslips.sum(:nssf)
+    taxable_income_total = payslips.sum(:taxable_income)
+    paye_total = payslips.sum(:paye)
+    net_salary_total = payslips.sum(:net_salary)
+
+    render json: {
+      gross_salary_total: gross_salary_total,
+      nhif_total: nhif_total,
+      nssf_total: nssf_total,
+      taxable_income_total: taxable_income_total,
+      paye_total: paye_total,
+      net_salary_total: net_salary_total,
+    }, status: :ok
+  end
+
   private
 
   def pay_params
