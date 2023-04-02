@@ -6,6 +6,7 @@ class PayslipsController < ApplicationController
     payslip = Payslip.new(pay_params)
     payslip.payslip_period = payslip.calculate_payslip_period
     payslip.gross_salary = payslip.calculate_gross_salary
+    payslip.nhif = payslip.nhif_deduction
   end
 
   def show
