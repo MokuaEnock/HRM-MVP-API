@@ -40,6 +40,20 @@ class Payslip < ApplicationRecord
   end
 
   def calculate_taxable_income
-    return calculate_taxable_income - nhif_deduction - nssf_deduction
+    taxablae_income = calculate_taxable_income - nhif_deduction - nssf_deduction
+
+    if taxable_income <= 0
+      return 0
+    elsif taxable_income <= 12298
+      return taxable_income * 0.1
+    elsif taxable_income <= 23885
+      return (taxable_income - 12298) * 0.15 + 1229.8
+    elsif taxable_income <= 35472
+      return (taxable_income - 23885) * 0.2 + 3204.8
+    elsif taxable_income <= 47059
+      return (taxable_income - 35472) * 0.25 + 5630.8
+    else
+      return (taxable_income - 47059) * 0.3 + 8963.3
+    end
   end
 end
