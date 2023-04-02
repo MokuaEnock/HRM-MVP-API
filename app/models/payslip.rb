@@ -6,12 +6,12 @@ class Payslip < ApplicationRecord
   end
 
   def calculate_gross_salary
-    attendances = Attendance.where(employer_id: employee_id, date: start_date..end_date)
+    attendances = Attendance.where(employee_id: employee_id, date: start_date..end_date)
     total_pay = attendances.sum(:pay)
   end
 
-  def calculate_nhif_deduction(gross_salary)
-    case gross_salary
+  def calculate_nhif_deduction
+    case calculate_gross_salary
     when 0..5999
       150
     when 6000..7999
@@ -35,12 +35,12 @@ class Payslip < ApplicationRecord
     end
   end
 
-  def calculate_nssf_deduction(gross_salary)
-    return 0.06 * [gross_salary, 18000].min
+  def calculate_nssf_deduction
+    return 200
   end
 
   def calculate_taxable_income
-    taxable_income = calculate_gross_salary - calculate_nhif_deduction(employee.gross_salary) - calculate_nssf_deduction(employee.gross_salary)
+    taxable_income = calculate_gross_salary - calculate_nhif_deduction - calculate_nssf_deduction
     return [taxable_income, 0].max
   end
 
@@ -66,8 +66,8 @@ class Payslip < ApplicationRecord
   def calculate_net_salary
     gross_salary = calculate_gross_salary
     paye = calculate_paye
-    nhif = calculate_nhif_deduction(employee.gross_salary)
-    nssf = calculate_nssf_deduction(employee.gross_salary)
+    nhif = calculate_nhif_deduction
+    nssf = calculate_nssf_deduction
     net_salary = gross_salary - paye - nhif - nssf
     return net_salary.round(2)
   end
