@@ -30,7 +30,10 @@ class PayslipsController < ApplicationController
 
   def show
     payslip = Payslip.find(params[:id])
-    render json: payslip, status: :ok
+    render json: {
+      payslip: payslip,
+      attendance_data: payslip.attendance_data,
+    }, status: :ok
   end
 
   private
