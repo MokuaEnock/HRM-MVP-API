@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   resources :employerlocations
   resources :employees
   resources :employers
+  get "/attendance_summary/:id", to: "attendances#attendance_summary"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

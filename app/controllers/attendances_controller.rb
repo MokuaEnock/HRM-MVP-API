@@ -24,6 +24,13 @@ class AttendancesController < ApplicationController
     end
   end
 
+  # GET /attendance_summary/:id
+  def attendance_summary
+    user_id = params[:id]
+    summary = attendance_summary(user_id)
+    render json: summary
+  end
+
   private
 
   def att_params
