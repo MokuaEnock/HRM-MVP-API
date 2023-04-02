@@ -9,6 +9,8 @@ class PayslipsController < ApplicationController
     payslip.nhif = payslip.nhif_deduction
     payslip.nssf = payslip.nssf_deduction
     payslip.taxable_income = payaslip.calculate_taxable_income
+    payslip.paye = payslip.calculate_paye
+    
   end
 
   def show

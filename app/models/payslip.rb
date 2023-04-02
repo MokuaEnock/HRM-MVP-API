@@ -56,4 +56,23 @@ class Payslip < ApplicationRecord
       return (taxable_income - 47059) * 0.3 + 8963.3
     end
   end
+
+  def calculate_paye
+    taxable_income = calculate_taxable_income
+    if taxable_income <= 12298
+      paye = 0.1 * taxable_income
+    elsif taxable_income > 12298 && taxable_income <= 23885
+      paye = 0.15 * (taxable_income - 12298) + 1229.80
+    elsif taxable_income > 23885 && taxable_income <= 35472
+      paye = 0.20 * (taxable_income - 23885) + 3457.80
+    elsif taxable_income > 35472 && taxable_income <= 47059
+      paye = 0.25 * (taxable_income - 35472) + 6028.80
+    elsif taxable_income > 47059 && taxable_income <= 58646
+      paye = 0.30 * (taxable_income - 47059) + 9728.80
+    else
+      paye = 0.35 * (taxable_income - 58646) + 14968.80
+    end
+
+    paye.round(2)
+  end
 end
