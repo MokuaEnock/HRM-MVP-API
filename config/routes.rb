@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :payslips do
     collection do
       get "totals"
+      get :calculate_payslip_totals
     end
   end
   resources :attendances

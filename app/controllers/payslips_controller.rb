@@ -62,6 +62,27 @@ class PayslipsController < ApplicationController
     }, status: :ok
   end
 
+  def calculate_payslip_totals
+    @payslips = Payslip.all.order(:start_date)
+    payslip_totals = {}
+    @payslips.each do |payslip|
+      period = payslip.start_date.strftime("%b %Y")
+      payslip_totals[period] ||= {}
+      payslip_totals[period][:gross_salary] ||= 0
+      payslip_totals[period][:nhif_deduction] ||= 0
+      payslip_totals[period][:nssf_deduction] ||= 0
+      payslip_totals[period][:paye] ||= 0
+      payslip_totals[period][:net_salary] ||= 0
+
+      payslip_totals[period][:gross_salary] += payslip.calculate_gross_salary
+      payslip_totals[period][:nhif_deduction] += payslip.calculate_nhif_deduction
+      payslip_totals[period][:nssf_deduction] += payslip.calculate_nssf_deduction
+      payslip_totals[period][:paye] += payslip.calculate_paye
+      payslip_totals[period][:net_salary] += payslip.calculate_net_salary
+    end
+    render json: payslip_totals
+  end
+
   private
 
   def pay_params
