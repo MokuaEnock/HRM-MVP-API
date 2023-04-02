@@ -86,7 +86,7 @@ class Payslip < ApplicationRecord
     end
 
     attendances.each do |attendance|
-      attendance_hours[attendance.date] = attendance.hours_worked
+      attendance_hours[attendance.date] = attendance.total_worked_hours
       attendance_pay[attendance.date] = attendance.pay
     end
 
