@@ -24,10 +24,33 @@ class AttendancesController < ApplicationController
     end
   end
 
-  # GET /attendance_summary/:id
+  # GET /attendance_summary/:employee_id
   def attendance_summary
-    user_id = params[:id]
-    summary = attendance_summary(user_id)
+    employee = Employee.find(params[:id])
+    attendances = Attendance.where(employee_id: employee)
+    summary = {}
+
+    attendances.each do |attendance|
+      month = attendance.date.month
+      year = attendance.date.year
+
+      # Initialize the summary hash for this month and year if it doesn't exist
+      summary[year] ||= {}
+      summary[year][month] ||= {
+        month_name: attendance.date.strftime("%B"),
+        present_days: 0,
+        absent_days: 0,
+        total_pay: 0.0,
+      }
+
+      # Increment the present_days or absent_days count depending on the attendance record
+      if attendance.total_worked_hours > 0
+        summary[year][month][:present_days] += 1
+        summary[year][month][:total_pay] += attendance.pay
+      else
+        summary[year][month][:absent_days] += 1
+      end
+    end
     render json: summary
   end
 
