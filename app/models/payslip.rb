@@ -3,8 +3,10 @@ class Payslip < ApplicationRecord
   validate :start_and_end_dates
 
   def start_and_end_dates
-    if (end_date - start_date).to_i != 13
-      errors.add(:end_date, "End date must be exactly 14 days after start date.")
+    if start_date.nil? || end_date.nil?
+      errors.add(:end_date, "Start date and end date must be present.")
+    elsif (end_date - start_date).to_i != 13
+      errors.add(:end_date, "The payslip period must be exactly 14 days.")
     end
   end
 
