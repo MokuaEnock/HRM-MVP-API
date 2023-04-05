@@ -9,7 +9,7 @@ class Attendance < ApplicationRecord
       hours_worked = ((time_out - time_in) / 1.hour).round(2)
       # If this is a weekend, double the total worked hours
       if weekend?
-        self.total_worked_hours = (hours_worked * 2).round(2)
+        self.total_worked_hours = hours_worked
       else
         self.total_worked_hours = hours_worked
       end
@@ -23,9 +23,13 @@ class Attendance < ApplicationRecord
     if total_worked_hours == 0
       self.pay = 0.0
     elsif weekday?
-      self.pay = 776.0
+      # Access the Employeework model for this employee and get the basic_salary attribute
+      basic_salary = employee.employeework.basic_salary
+      self.pay = basic_salary #/ 22.0 * total_worked_hours
     elsif weekend?
-      self.pay = 2 * 776.0
+      # Access the Employeework model for this employee and get the basic_salary attribute
+      basic_salary = employee.employeework.basic_salary
+      self.pay = basic_salary * 2 #/ 22.0 * total_worked_hours * 2
     end
   end
 
@@ -40,6 +44,4 @@ class Attendance < ApplicationRecord
   def weekend?
     date.on_weekend?
   end
-
-
 end
