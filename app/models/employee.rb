@@ -10,4 +10,5 @@ class Employee < ApplicationRecord
   has_many :attendances
   has_many :payslips
   has_many :disciplinaries
+  has_one :employeework
 end
