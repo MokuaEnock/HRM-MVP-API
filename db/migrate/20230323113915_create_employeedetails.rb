@@ -8,7 +8,6 @@ class CreateEmployeedetails < ActiveRecord::Migration[7.0]
       t.string :third_name
       t.integer :national_id
       t.string :gender
-      t.integer :phone
 
       t.timestamps
     end
