@@ -17,7 +17,45 @@ departments = Department.create([{ employer_id: 1, email: "engineering@gmail.com
 
 employees = Employee.create([{ department_id: 1, email: "mokua@enock.com", employee_number: "zab3", password: "enock", password_confirmation: "enock" },
                              { department_id: 1, email: "leila@kem.com", employee_number: "kem2", password: "enock", password_confirmation: "enock" }])
+# employee saccos
+Employeesacco.create(employee_id: 1, name: "John's Savings Account", registration_number: "12345", bank_name: "Bank of America", bank_branch: "Downtown Branch", bank_account_name: "John Doe", bank_account_number: "9876543210", membership_number: "56789", contribution_amount: 1000, start_date: Date.new(2023, 1, 1), end_date: Date.new(2022, 12, 31))
+Employeesacco.create(employee_id: 2, name: "Jane's Checking Account", registration_number: "67890", bank_name: "Chase Bank", bank_branch: "Midtown Branch", bank_account_name: "Jane Smith", bank_account_number: "1234567890", membership_number: "98765", contribution_amount: 1500, start_date: Date.new(2023, 1, 1), end_date: Date.new(2022, 12, 31))
 
+#employee insurance
+
+# Seed data for employeeinsurance 1
+employeeinsurance1 = Employeeinsuarance.create!(
+  employee_id: 1,
+  name: "John Doe Insurance",
+  registration_number: "JD001",
+  bank_name: "ABC Bank",
+  bank_branch: "Nairobi",
+  bank_account_number: "1234567890",
+  bank_account_name: "John Doe",
+  premium_type: "Life Insurance",
+  policy_number: "LI001",
+  premium_amount: "5000",
+  start_date: Date.today - 1.month,
+  end_date: Date.today + 11.months,
+)
+
+# Seed data for employeeinsurance 2
+employeeinsurance2 = Employeeinsuarance.create!(
+  employee_id: 2,
+  name: "Jane Smith Insurance",
+  registration_number: "JS001",
+  bank_name: "XYZ Bank",
+  bank_branch: "Mombasa",
+  bank_account_number: "0987654321",
+  bank_account_name: "Jane Smith",
+  premium_type: "Medical Insurance",
+  policy_number: "MI001",
+  premium_amount: "7500",
+  start_date: Date.today,
+  end_date: Date.today + 1.year,
+)
+
+# Attendance data
 # Create an array of all the dates from January 1st until today, excluding Sundays and occasional Saturdays
 dates = (Date.parse("2023-01-01")..Date.today).select { |date| date.on_weekday? || (date.saturday? && rand(10) < 3) }.reject { |date| date.sunday? }
 
