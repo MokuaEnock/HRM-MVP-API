@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
   create_table "attendances", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.decimal "total_worked_hours", precision: 10, scale: 2, default: "0.0", null: false
@@ -60,9 +60,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
     t.string "account_name"
     t.string "bank_code"
     t.string "branch_code"
+    t.string "preferred_currency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeebanks_on_employee_id"
+  end
+
+  create_table "employeecontacts", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.integer "phone_number"
+    t.string "email_address"
+    t.integer "whatsapp_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeecontacts_on_employee_id"
+  end
+
+  create_table "employeecurrents", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "longitude"
+    t.string "latitude"
+    t.string "timestamps"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeecurrents_on_employee_id"
   end
 
   create_table "employeedetails", force: :cascade do |t|
@@ -71,10 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
     t.string "second_name"
     t.string "third_name"
     t.integer "national_id"
-    t.string "job_role"
     t.string "gender"
-    t.string "job_group"
-    t.integer "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeedetails_on_employee_id"
@@ -90,11 +108,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
     t.index ["employee_id"], name: "index_employeefinancials_on_employee_id"
   end
 
+  create_table "employeeinsuarances", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "name"
+    t.string "registration_number"
+    t.string "bank_name"
+    t.string "bank_branch"
+    t.string "bank_account_number"
+    t.string "bank_account_name"
+    t.string "premium_type"
+    t.string "policy_number"
+    t.string "premium_amount"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeeinsuarances_on_employee_id"
+  end
+
   create_table "employeelocations", force: :cascade do |t|
     t.integer "employee_id", null: false
-    t.string "latitide"
-    t.string "longitude"
-    t.datetime "timestamp"
+    t.string "country"
+    t.string "county"
+    t.datetime "subcounty"
+    t.datetime "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeelocations_on_employee_id"
@@ -108,6 +145,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_employees_on_department_id"
+  end
+
+  create_table "employeesaccos", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "name"
+    t.string "registration_number"
+    t.string "bank_name"
+    t.string "bank_branch"
+    t.string "bank_account_name"
+    t.string "bank_account_number"
+    t.string "membership_number"
+    t.integer "contribution_amount"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeesaccos_on_employee_id"
   end
 
   create_table "employeeschedules", force: :cascade do |t|
@@ -130,6 +184,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeetasks_on_employee_id"
+  end
+
+  create_table "employeeworks", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.integer "basic_salary"
+    t.string "employee_role"
+    t.string "employee_number"
+    t.string "employee_job_group"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employeeworks_on_employee_id"
   end
 
   create_table "employerbanks", force: :cascade do |t|
@@ -211,12 +276,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_224245) do
   add_foreign_key "departments", "employers"
   add_foreign_key "disciplinaries", "employees"
   add_foreign_key "employeebanks", "employees"
+  add_foreign_key "employeecontacts", "employees"
+  add_foreign_key "employeecurrents", "employees"
   add_foreign_key "employeedetails", "employees"
   add_foreign_key "employeefinancials", "employees"
+  add_foreign_key "employeeinsuarances", "employees"
   add_foreign_key "employeelocations", "employees"
   add_foreign_key "employees", "departments"
+  add_foreign_key "employeesaccos", "employees"
   add_foreign_key "employeeschedules", "employees"
   add_foreign_key "employeetasks", "employees"
+  add_foreign_key "employeeworks", "employees"
   add_foreign_key "employerbanks", "employers"
   add_foreign_key "employerdetails", "employers"
   add_foreign_key "employerfinancials", "employers"
