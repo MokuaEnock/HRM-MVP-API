@@ -1,0 +1,2 @@
+class EmployeeinsuarancesController < ApplicationController
+end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :employeeinsuarances
   resources :employeesaccos
   resources :employeecurrents
   resources :employeecontacts
