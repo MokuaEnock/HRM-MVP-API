@@ -1,5 +1,12 @@
 class Payslip < ApplicationRecord
   belongs_to :employee
+  validate :start_and_end_dates
+
+  def start_and_end_dates
+    if (end_date - start_date).to_i != 13
+      errors.add(:end_date, "End date must be exactly 14 days after start date.")
+    end
+  end
 
   def calculate_payslip_period
     (end_date - start_date).to_i + 1
