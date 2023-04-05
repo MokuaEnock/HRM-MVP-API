@@ -55,6 +55,25 @@ employeeinsurance2 = Employeeinsuarance.create!(
   end_date: Date.today + 1.year,
 )
 
+
+# Seed data for employeework 1
+employeework1 = Employeework.create!(
+  employee_id: 1,
+  basic_salary: 50000,
+  employee_role: "Software Engineer",
+  employee_number: "JD001",
+  employee_job_group: "Level 2"
+)
+
+# Seed data for employeework 2
+employeework2 = Employeework.create!(
+  employee_id: 2,
+  basic_salary: 60000,
+  employee_role: "Project Manager",
+  employee_number: "JS001",
+  employee_job_group: "Level 3"
+)
+
 # Attendance data
 # Create an array of all the dates from January 1st until today, excluding Sundays and occasional Saturdays
 dates = (Date.parse("2023-01-01")..Date.today).select { |date| date.on_weekday? || (date.saturday? && rand(10) < 3) }.reject { |date| date.sunday? }
