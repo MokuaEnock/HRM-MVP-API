@@ -97,8 +97,48 @@ class Payslip < ApplicationRecord
     attendance_data = {
       dates: attendance_hours.keys,
       hours_worked: attendance_hours.values,
-      pay: attendance_pay.values
+      pay: attendance_pay.values,
     }
     return attendance_data
+  end
+
+  def calculate_sacco_deduction
+    sacco_deduction = 0
+    sacco_details = []
+
+    # Retrieve all saccos belonging to employee
+    saccos = EmployeeSacco.where(employee_id: employee_id)
+
+    if saccos.present?
+      # Calculate deduction for each sacco and add to total
+      saccos.each do |sacco|
+        sacco_amount = sacco.calculate_deduction(calculate_gross_salary)
+        sacco_deduction += sacco_amount
+        sacco_details << { name: sacco.name, amount: sacco_amount }
+      end
+    else
+      # If no saccos, set deduction to zero
+      sacco_deduction = 0
+    end
+
+    return { total_deduction: sacco_deduction, breakdown: sacco_details }
+  end
+
+  def calculate_insurance_deduction
+    employee_insurances = employee.employee_insurances
+    return 0 if employee_insurances.empty?
+
+    total_deduction = 0
+    breakdown = {}
+    employee_insurances.each do |insurance|
+      deduction = insurance.monthly_premium.to_f
+      total_deduction += deduction
+      breakdown[insurance.provider] = deduction
+    end
+
+    return {
+             total_deduction: total_deduction.round(2),
+             breakdown: breakdown,
+           }
   end
 end
