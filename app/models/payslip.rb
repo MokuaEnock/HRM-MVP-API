@@ -110,7 +110,7 @@ class Payslip < ApplicationRecord
 
     if saccos.present?
       saccos.each do |sacco|
-        sacco_amount = sacco.calculate_deduction(calculate_gross_salary)
+        sacco_amount = sacco.contribution_amount
         sacco_contributions << sacco_amount
       end
     end
@@ -119,7 +119,7 @@ class Payslip < ApplicationRecord
     return total_sacco_deduction
   end
 
-  def calculate_insurance_deduction(employee_id)
+  def calculate_insurance_deduction
     insurance_deduction = 0
 
     # Retrieve all insurances belonging to employee
