@@ -89,12 +89,3 @@ class PayslipsController < ApplicationController
     params.require(:payslip).permit(:employee_id, :start_date, :end_date)
   end
 end
-
-# breakdown = {
-#   employee: [],
-#   deductions: [],
-#   weeks: {
-#     week1: [["day1", "day1", "day3", "day4", "day5", "day6", "day7"], ["pay1", "pay2", "pay3", "pay4", "pay5", "pay6", "pay7"]],
-#     week2: [["day1", "day1", "day3", "day4", "day5", "day6", "day7"], ["pay1", "pay2", "pay3", "pay4", "pay5", "pay6", "pay7"]],
-#   },
-# }

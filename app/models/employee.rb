@@ -12,6 +12,6 @@ class Employee < ApplicationRecord
   has_many :disciplinaries
   has_one :employeework
   has_many :employeesaccos
-  has_many :employeeworks
+  
   has_many :employeetasks
 end

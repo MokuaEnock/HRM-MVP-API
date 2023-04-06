@@ -266,6 +266,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
     t.integer "payslip_period"
     t.integer "gross_salary"
     t.integer "net_salary"
+    t.decimal "sacco", precision: 10, scale: 2, null: false
+    t.decimal "insurance", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_payslips_on_employee_id"
