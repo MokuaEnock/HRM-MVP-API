@@ -16,7 +16,7 @@ class Payslip < ApplicationRecord
 
   def calculate_gross_salary
     attendances = Attendance.where(employee_id: employee_id, date: start_date..end_date)
-    total_pay = attendances.sum(:pay)
+    total_pay = attendances.sum(:total_salary)
   end
 
   def calculate_nhif_deduction

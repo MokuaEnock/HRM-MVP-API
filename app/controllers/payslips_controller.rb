@@ -30,6 +30,27 @@ class PayslipsController < ApplicationController
     render json: { message: "Payslips generated successfully" }, status: :created
   end
 
+  def payslip
+    employee = Employee.find(params[:employee_id])
+    payslip = employee.payslips.last
+    deductions = {
+      nhif: payslip.nhif,
+      sacco: payslip.sacco,
+      insurance: payslip.insurance,
+      nssf: payslip.nssf,
+      paye: payslip.paye,
+    }
+    employee_details = {
+      name: employee.name,
+      basic_salary: employee.employee_work.basic_salary,
+    }
+    payslip_data = {
+      deductions: deductions,
+      employee_details: employee_details,
+    }
+    render json: payslip_data, status: :ok
+  end
+
   def show
     employee = Employee.find(params[:id])
     payslips = employee.payslips
