@@ -8,4 +8,6 @@ class EmployeeSerializer < ActiveModel::Serializer
   has_one :employeefinancial
   has_many :employeetasks
   has_many :disciplinaries
+  has_many :employeesaccos
+  has_many :employeeinsuarances
 end

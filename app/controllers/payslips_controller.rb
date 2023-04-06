@@ -17,6 +17,8 @@ class PayslipsController < ApplicationController
       payslip.taxable_income = payslip.calculate_taxable_income
       payslip.paye = payslip.calculate_paye
       payslip.net_salary = payslip.calculate_net_salary
+      payslip.sacco = payslip.calculate_sacco_deduction
+      payslip.insurance = payslip.calculate_insurance_deduction
 
       if payslip.save
         # do something if the payslip was successfully saved
