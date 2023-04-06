@@ -59,7 +59,7 @@ employeeinsurance2 = Employeeinsuarance.create!(
 # Seed data for employeework 1
 employeework1 = Employeework.create!(
   employee_id: 1,
-  basic_salary: 50000,
+  basic_salary: 800,
   employee_role: "Software Engineer",
   employee_number: "JD001",
   employee_job_group: "Level 2"
@@ -68,7 +68,7 @@ employeework1 = Employeework.create!(
 # Seed data for employeework 2
 employeework2 = Employeework.create!(
   employee_id: 2,
-  basic_salary: 60000,
+  basic_salary: 700,
   employee_role: "Project Manager",
   employee_number: "JS001",
   employee_job_group: "Level 3"
