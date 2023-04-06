@@ -20,14 +20,16 @@ class Attendance < ApplicationRecord
     end
   end
 
-   # Calculate the pay for this time sheet based on the total_worked_hours and whether it's a weekday or weekend
-   def calculate_pay
+  # Calculate the pay for this time sheet based on the total_worked_hours and whether it's a weekday or weekend
+  def calculate_pay
     if total_worked_hours == 0
       self.pay = 0.0
     elsif weekday?
       # Access the Employeework model for this employee and get the basic_salary attribute
       basic_salary = employee.employeework.basic_salary
       self.pay = basic_salary #/ 22.0 * total_worked_hours
+      self.overtime_pay = ((basic_salary / 8) * 2 * overtime)
+      self.total_salary = pay + overtime_pay
     elsif weekend?
       # Access the Employeework model for this employee and get the basic_salary attribute
       basic_salary = employee.employeework.basic_salary
