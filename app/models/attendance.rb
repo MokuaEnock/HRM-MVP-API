@@ -18,6 +18,15 @@ class Attendance < ApplicationRecord
     end
   end
 
+  #calculate the overtime
+  def calculate_overtime
+    if total_worked_hours > 8
+      self.overtime_hours = total_worked_hours - 8
+    else
+      self.overtime_hours = 0
+    end
+  end
+
   # Calculate the pay for this time sheet based on the total_worked_hours and whether it's a weekday or weekend
   def calculate_pay
     if total_worked_hours == 0
