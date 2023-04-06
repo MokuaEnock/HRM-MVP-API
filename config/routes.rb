@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :employers
   get "/attendance_summary/:id", to: "attendances#attendance_summary"
   get "/payslips/cpt/:id", to: "payslips#calculate_payslip_totals"
+  get "payslip/:id", to: "payslips#payslip"
   # mount SwaggerUiEngine::Engine, at: "/api-docs"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

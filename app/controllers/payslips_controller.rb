@@ -32,7 +32,7 @@ class PayslipsController < ApplicationController
 
   def payslip
     employee = Employee.find(params[:employee_id])
-    payslip = employee.payslips.last
+    payslip = Payslip.where(employee_id: employee.id).last
     deductions = {
       nhif: payslip.nhif,
       sacco: payslip.sacco,
@@ -41,13 +41,19 @@ class PayslipsController < ApplicationController
       paye: payslip.paye,
     }
     employee_details = {
-      name: employee.name,
-      basic_salary: employee.employee_work.basic_salary,
+      name: employee.email,
+      basic_salary: employee.employeework.basic_salary,
+    }
+    employee_pay = {
+      net_pay: payslip.net_salary,
+      gross_pay: payslip.gross_salary,
     }
     payslip_data = {
       deductions: deductions,
       employee_details: employee_details,
+      employee_pay: employee_pay,
     }
+
     render json: payslip_data, status: :ok
   end
 
