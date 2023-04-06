@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
     t.decimal "overtime_pay", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "pay", precision: 10, scale: 2, default: "0.0", null: false
     t.string "reason"
+    t.decimal "total_salary", precision: 10, scale: 2
     t.time "time_in"
     t.time "time_out"
     t.date "date"

@@ -34,6 +34,8 @@ class Attendance < ApplicationRecord
       # Access the Employeework model for this employee and get the basic_salary attribute
       basic_salary = employee.employeework.basic_salary
       self.pay = basic_salary * 2 #/ 22.0 * total_worked_hours * 2
+      self.overtime_pay = 0
+      self.total_salary = pay + overtime_pay
     end
   end
 
