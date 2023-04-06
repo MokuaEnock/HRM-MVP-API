@@ -119,17 +119,25 @@ class Payslip < ApplicationRecord
     return total_sacco_deduction
   end
 
+  def calculate_insurance_deduction(employee_id)
+    insurance_deduction = 0
 
-  def calculate_insurance_deduction
-    employee_insurances = employee.employee_insurances
-    return 0 if employee_insurances.empty?
+    # Retrieve all insurances belonging to employee
+    insurances = Employeeinsuarance.where(employee_id: employee_id)
 
-    total_deduction = 0
-    employee_insurances.each do |insurance|
-      deduction = insurance.monthly_premium.to_f
-      total_deduction += deduction
+    if insurances.present?
+      # Calculate deduction for each insurance and add to total
+      insurance_deductions = []
+      insurances.each do |insurance|
+        insurance_amount = insurance.premium_amount.to_i
+        insurance_deductions.push(insurance_amount)
+      end
+      insurance_deduction = insurance_deductions.sum
+    else
+      # If no insurances, set deduction to zero
+      insurance_deduction = 0
     end
 
-    return total_deduction.round(2)
+    return insurance_deduction
   end
 end
