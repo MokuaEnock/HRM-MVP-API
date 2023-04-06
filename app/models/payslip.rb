@@ -129,16 +129,11 @@ class Payslip < ApplicationRecord
     return 0 if employee_insurances.empty?
 
     total_deduction = 0
-    breakdown = {}
     employee_insurances.each do |insurance|
       deduction = insurance.monthly_premium.to_f
       total_deduction += deduction
-      breakdown[insurance.provider] = deduction
     end
 
-    return {
-             total_deduction: total_deduction.round(2),
-             breakdown: breakdown,
-           }
+    return total_deduction.round(2)
   end
 end
