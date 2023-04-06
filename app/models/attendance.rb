@@ -1,16 +1,18 @@
 class Attendance < ApplicationRecord
   belongs_to :employee
 
-  # Calculate the total worked hours for this time sheet based on the time_in and time_out fields
   def calculate_total_worked_hours
     # Check if time_in and time_out are present
     if time_in.present? && time_out.present?
       # Calculate the total worked hours
       hours_worked = ((time_out - time_in) / 1.hour).round(2)
-      # If this is a weekend, double the total worked hours
-      if weekend?
-        self.total_worked_hours = hours_worked
+      # Calculate overtime if the total worked hours exceed 8 hours
+      if hours_worked > 8
+        overtime_hours = hours_worked - 8
+        self.overtime = overtime_hours
+        self.total_worked_hours = 8.0
       else
+        self.overtime = 0.0
         self.total_worked_hours = hours_worked
       end
     else
@@ -18,27 +20,15 @@ class Attendance < ApplicationRecord
     end
   end
 
-  #calculate the overtime
-  def calculate_overtime
-    if total_worked_hours > 8
-      self.overtime_hours = total_worked_hours - 8
-    else
-      self.overtime_hours = 0
-    end
-  end
-
   # Calculate the pay for this time sheet based on the total_worked_hours and whether it's a weekday or weekend
   def calculate_pay
     if total_worked_hours == 0
       self.pay = 0.0
-    elsif weekday?
+    else
       # Access the Employeework model for this employee and get the basic_salary attribute
       basic_salary = employee.employeework.basic_salary
-      self.pay = basic_salary #/ 22.0 * total_worked_hours
-    elsif weekend?
-      # Access the Employeework model for this employee and get the basic_salary attribute
-      basic_salary = employee.employeework.basic_salary
-      self.pay = basic_salary * 2 #/ 22.0 * total_worked_hours * 2
+      multiplier = weekend? ? 2 : 1
+      self.pay = basic_salary * total_worked_hours * multiplier #/ 22.0
     end
   end
 
