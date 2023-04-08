@@ -140,4 +140,77 @@ class Payslip < ApplicationRecord
 
     return insurance_deduction
   end
+
+  def self.last_five_for_employee(employee_id)
+    payslips = where(employee_id: employee_id).order(created_at: :desc).limit(5)
+    payslips_data = []
+
+    payslips.each do |payslip|
+      deductions = {
+        nhif: payslip.nhif,
+        sacco: payslip.sacco,
+        insurance: payslip.insurance,
+        nssf: payslip.nssf,
+        paye: payslip.paye,
+      }
+
+      employee_details = {
+        name: payslip.employee.email,
+        basic_salary: payslip.employee.employeework.basic_salary,
+        payslip_id: payslip.id,
+      }
+
+      payslip_period = {
+        start_date: payslip.start_date,
+        end_date: payslip.end_date,
+        payslip_period: payslip.payslip_period,
+      }
+
+      week1_dates = (payslip.start_date..(payslip.start_date + 6.days)).to_a
+      week2_dates = ((payslip.end_date - 6.days)..payslip.end_date).to_a
+
+      overtime_week1 = Attendance.where(employee_id: employee_id, date: week1_dates)
+                                 .pluck(:overtime_pay).sum
+      overtime_week2 = Attendance.where(employee_id: employee_id, date: week2_dates)
+                                 .pluck(:overtime_pay).sum
+
+      week1_pay = Attendance.where(employee_id: employee_id, date: week1_dates)
+        .pluck(:total_salary)
+
+      week2_pay = Attendance.where(employee_id: employee_id, date: week2_dates)
+        .pluck(:total_salary)
+
+      weeky_pay = {
+        pay_week1: week1_pay.map(&:to_f),
+        pay_week2: week2_pay.map(&:to_f),
+      }
+
+      employee_pay = {
+        net_pay: payslip.net_salary,
+        gross_pay: payslip.gross_salary,
+      }
+
+      payslips_data << {
+        employee_details: employee_details,
+        payslip_period: payslip_period,
+        week1: {
+          start_date: payslip.start_date,
+          end_date: (payslip.start_date + 6.days),
+          dates: week1_dates,
+          overtime_pay: overtime_week1,
+        },
+        week2: {
+          start_date: (payslip.end_date - 6.days),
+          end_date: payslip.end_date,
+          dates: week2_dates,
+          overtime_pay: overtime_week2,
+        },
+        deductions: deductions,
+        employee_pay: employee_pay,
+        weekly_pay: weeky_pay,
+      }
+    end
+
+    payslips_data
+  end
 end
