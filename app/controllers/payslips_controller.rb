@@ -40,18 +40,44 @@ class PayslipsController < ApplicationController
       nssf: payslip.nssf,
       paye: payslip.paye,
     }
+
     employee_details = {
       name: employee.email,
       basic_salary: employee.employeework.basic_salary,
+      payslip_id: payslip.id,
+
     }
+
     employee_pay = {
       net_pay: payslip.net_salary,
       gross_pay: payslip.gross_salary,
     }
+
+    payslip_period = {
+      start_date: payslip.start_date,
+      end_date: payslip.end_date,
+      payslip_period: payslip.payslip_period,
+    }
+
+    week1_dates = {
+      start_of_week: payslip.start_date,
+      end_of_week: payslip.start_date + 6.days,
+    }
+    week1_dates[:dates] = (week1_dates[:start_of_week]..week1_dates[:end_of_week]).map { |date| date.strftime("%Y-%m-%d") }
+
+    week2_dates = {
+      start_of_week: payslip.end_date - 6.days,
+      end_of_week: payslip.end_date,
+    }
+    week2_dates[:dates] = (week2_dates[:start_of_week]..week2_dates[:end_of_week]).map { |date| date.strftime("%Y-%m-%d") }
+
     payslip_data = {
       deductions: deductions,
       employee_details: employee_details,
       employee_pay: employee_pay,
+      payslip_period: payslip_period,
+      week1: week1_dates,
+      week2: week2_dates,
     }
 
     render json: payslip_data, status: :ok
