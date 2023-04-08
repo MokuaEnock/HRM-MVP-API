@@ -31,54 +31,58 @@ class PayslipsController < ApplicationController
   end
 
   def payslip
-    employee = Employee.find(params[:employee_id])
-    payslip = Payslip.where(employee_id: employee.id).last
-    deductions = {
-      nhif: payslip.nhif,
-      sacco: payslip.sacco,
-      insurance: payslip.insurance,
-      nssf: payslip.nssf,
-      paye: payslip.paye,
-    }
+    employees = Employee.all
+    payslip_data = []
 
-    employee_details = {
-      name: employee.email,
-      basic_salary: employee.employeework.basic_salary,
-      payslip_id: payslip.id,
+    employees.each do |employee|
+      payslip = Payslip.where(employee_id: employee.id).last
+      next unless payslip # skip if no payslip found for this employee
 
-    }
+      deductions = {
+        nhif: payslip.nhif,
+        sacco: payslip.sacco,
+        insurance: payslip.insurance,
+        nssf: payslip.nssf,
+        paye: payslip.paye,
+      }
 
-    employee_pay = {
-      net_pay: payslip.net_salary,
-      gross_pay: payslip.gross_salary,
-    }
+      employee_details = {
+        name: employee.email,
+        basic_salary: employee.employeework.basic_salary,
+        payslip_id: payslip.id,
+      }
 
-    payslip_period = {
-      start_date: payslip.start_date,
-      end_date: payslip.end_date,
-      payslip_period: payslip.payslip_period,
-    }
+      payslip_period = {
+        start_date: payslip.start_date,
+        end_date: payslip.end_date,
+        payslip_period: payslip.payslip_period,
+      }
 
-    week1_dates = {
-      start_of_week: payslip.start_date,
-      end_of_week: payslip.start_date + 6.days,
-    }
-    week1_dates[:dates] = (week1_dates[:start_of_week]..week1_dates[:end_of_week]).map { |date| date.strftime("%Y-%m-%d") }
+      week1_dates = (payslip.start_date..(payslip.start_date + 6.days)).to_a
+      week2_dates = ((payslip.end_date - 6.days)..payslip.end_date).to_a
 
-    week2_dates = {
-      start_of_week: payslip.end_date - 6.days,
-      end_of_week: payslip.end_date,
-    }
-    week2_dates[:dates] = (week2_dates[:start_of_week]..week2_dates[:end_of_week]).map { |date| date.strftime("%Y-%m-%d") }
+      employee_pay = {
+        net_pay: payslip.net_salary,
+        gross_pay: payslip.gross_salary,
+      }
 
-    payslip_data = {
-      deductions: deductions,
-      employee_details: employee_details,
-      employee_pay: employee_pay,
-      payslip_period: payslip_period,
-      week1: week1_dates,
-      week2: week2_dates,
-    }
+      payslip_data << {
+        employee_details: employee_details,
+        payslip_period: payslip_period,
+        week1: {
+          start_date: payslip.start_date,
+          end_date: (payslip.start_date + 6.days),
+          dates: week1_dates,
+        },
+        week2: {
+          start_date: (payslip.end_date - 6.days),
+          end_date: payslip.end_date,
+          dates: week2_dates,
+        },
+        deductions: deductions,
+        employee_pay: employee_pay,
+      }
+    end
 
     render json: payslip_data, status: :ok
   end
