@@ -64,6 +64,17 @@ class PayslipsController < ApplicationController
       overtime_week2 = Attendance.where(employee_id: employee.id, date: week2_dates)
                                  .pluck(:overtime_pay).sum
 
+      week1_pay = Attendance.where(employee_id: employee.id, date: week1_dates)
+        .pluck(:total_salary)
+
+      week2_pay = Attendance.where(employee_id: employee.id, date: week2_dates)
+        .pluck(:total_salary)
+
+      weeky_pay = {
+        pay_week1: week1_pay,
+        pay_week2: week2_pay,
+      }
+
       employee_pay = {
         net_pay: payslip.net_salary,
         gross_pay: payslip.gross_salary,
@@ -86,12 +97,12 @@ class PayslipsController < ApplicationController
         },
         deductions: deductions,
         employee_pay: employee_pay,
+        weekly_pay: weeky_pay,
       }
     end
 
     render json: payslip_data, status: :ok
   end
-
 
   def show
     employee = Employee.find(params[:id])
