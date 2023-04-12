@@ -5,8 +5,12 @@ class EmployeesController < ApplicationController
   end
 
   def create
-    employee = Employee.create(employee_params)
-    render json: employee
+    employee = Employee.new(employee_params)
+    if employee.save
+      render json: { id: employee.id, employee: employee }, status: :created
+    else
+      render json: { errors: employee.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def show
