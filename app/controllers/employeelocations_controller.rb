@@ -23,6 +23,6 @@ class EmployeelocationsController < ApplicationController
   private
 
   def loc_params
-    params.permit(:location, :longitude, :timestamp, :employee_id)
+    params.permit(:country, :county, :subcounty, :location, :employee_id)
   end
 end
