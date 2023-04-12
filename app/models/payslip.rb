@@ -213,4 +213,6 @@ class Payslip < ApplicationRecord
 
     payslips_data
   end
+
+  
 end

@@ -33,7 +33,8 @@ class PayslipsController < ApplicationController
   def payslip
     employee = Employee.find(params[:employee_id])
     payslips_data = Payslip.last_five_for_employee(employee.id)
-    render json: payslip_data, status: :ok
+
+    render json: payslips_data, status: :ok
   end
 
   def show

@@ -13,6 +13,15 @@ class DepartmentsController < ApplicationController
     render json: @department, serializer: DepartmentSerializer
   end
 
+  def create_multiple
+    depts = []
+    params[:departments].each do |dept_params|
+      dept = Department.create(dept_params)
+      depts << dept
+    end
+    render json: depts
+  end
+
   private
 
   def dep_params

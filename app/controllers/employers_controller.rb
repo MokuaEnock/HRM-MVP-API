@@ -4,8 +4,12 @@ class EmployersController < ApplicationController
   end
 
   def create
-    employer = Employer.create(employer_params)
-    render json: { id: employer.id }
+    employer = Employer.new(employer_params)
+    if employer.save
+      render json: { id: employer.id }
+    else
+      render json: { errors: employer.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def show
