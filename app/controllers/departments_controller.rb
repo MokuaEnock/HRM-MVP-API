@@ -14,12 +14,11 @@ class DepartmentsController < ApplicationController
   end
 
   def create_multiple
-    depts = []
-    params[:departments].each do |dept_params|
-      dept = Department.create(dept_params)
-      depts << dept
+    departments = []
+    params["_json"].each do |department_params|
+      departments << Department.create(department_params.permit(:name, :email, :password, :password_confirmation, :employer_id))
     end
-    render json: depts
+    render json: departments
   end
 
   private
@@ -27,4 +26,6 @@ class DepartmentsController < ApplicationController
   def dep_params
     params.permit(:name, :email, :password, :password_confirmation, :employer_id)
   end
+
+
 end
