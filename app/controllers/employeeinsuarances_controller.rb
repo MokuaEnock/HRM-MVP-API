@@ -20,7 +20,7 @@ class EmployeeinsuarancesController < ApplicationController
 
   private
 
-  def employee_params
+  def ins_params
     params.permit(:employee_id, :name, :registration_number, :bank_name, :bank_branch, :bank_account_number, :bank_account_name, :premium_type, :policy_number, :premium_amount, :start_date, :end_date)
   end
 end
