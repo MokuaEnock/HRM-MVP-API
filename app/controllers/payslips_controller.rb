@@ -104,10 +104,10 @@ class PayslipsController < ApplicationController
 
     employees.each do |employee|
       # get the employee's details
-      employee_details = employee.employeedetails
+      employee_details = employee.employeedetail
 
       # get the employee's bank details
-      employee_banks = employee.employeebanks
+      employee_banks = employee.employeebank
 
       # get the payslips for the most recent complete pay period
       payslips = employee.payslips.where(payslip_period: payslip_period)
@@ -118,7 +118,7 @@ class PayslipsController < ApplicationController
           employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
           bank_name: employee_banks.bank_name,
           bank_code: employee_banks.bank_code,
-          bank_account_number: employee_banks.bank_account_number,
+          bank_account_number: employee_banks.account_number,
           branch_name: employee_banks.branch_name,
           payroll_number: payslip.id,
           net_salary: payslip.net_salary,
