@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   resources :employeecurrents
   resources :employeecontacts
   resources :employeeworks
-  resources :disciplinaries
   resources :employeetasks
   resources :payrates
   resources :payslips do
