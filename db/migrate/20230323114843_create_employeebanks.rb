@@ -6,6 +6,7 @@ class CreateEmployeebanks < ActiveRecord::Migration[7.0]
       t.string :bank_name
       t.string :branch_name
       t.string :account_name
+      t.number :account_number
       t.string :bank_code
       t.string :branch_code
       t.string :preferred_currency

@@ -104,24 +104,26 @@ class PayslipsController < ApplicationController
 
     employees.each do |employee|
       # get the employee's details
-      employee_details = employee.employee_details.first
+      employee_details = employee.employeedetails
 
       # get the employee's bank details
-      employee_banks = employee.employee_banks.first
+      employee_banks = employee.employeebanks
 
-      # get the payslip for the most recent complete pay period
-      payslip = employee.payslips.where(payslip_period: payslip_period).first
+      # get the payslips for the most recent complete pay period
+      payslips = employee.payslips.where(payslip_period: payslip_period)
 
       # add the generated data to the array
-      data << {
-        employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
-        bank_name: employee_banks.bank_name,
-        bank_code: employee_banks.bank_code,
-        bank_account_number: employee_banks.bank_account_number,
-        branch_name: employee_banks.branch_name,
-        payroll_number: payslip.id,
-        net_salary: payslip.net_salary,
-      }
+      payslips.each do |payslip|
+        data << {
+          employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
+          bank_name: employee_banks.bank_name,
+          bank_code: employee_banks.bank_code,
+          bank_account_number: employee_banks.bank_account_number,
+          branch_name: employee_banks.branch_name,
+          payroll_number: payslip.id,
+          net_salary: payslip.net_salary,
+        }
+      end
     end
 
     render json: data, status: :ok
