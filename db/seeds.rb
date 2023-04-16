@@ -109,26 +109,27 @@ Employeedetail.create!(
   first_name: "John",
   second_name: "Doe",
   third_name: "Smith",
-  national_id: first_employee_national_id,
+  national_id: 37384065,
   gender: "male",
 )
 
 Employeebank.create!(
-  employee_id: 2,
+  employee_id: 1,
   bank_name: "ABC Bank",
   branch_name: "Nairobi",
   account_name: "John Doe",
+  account_number: 12345,
   bank_code: "12345",
   branch_code: "67890",
   preferred_currency: "KES",
 )
 
 Employeedetail.create!(
-  employee_id: 1,
+  employee_id: 2,
   first_name: "Jane",
   second_name: "Doe",
   third_name: "Kariuki",
-  national_id: second_employee_national_id,
+  national_id: 42546789,
   gender: "female",
 )
 
@@ -137,6 +138,7 @@ Employeebank.create!(
   bank_name: "XYZ Bank",
   branch_name: "Mombasa",
   account_name: "Jane Doe",
+  account_number: 67890,
   bank_code: "54321",
   branch_code: "09876",
   preferred_currency: "USD",

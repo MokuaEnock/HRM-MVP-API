@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013717) do
     t.string "bank_name"
     t.string "branch_name"
     t.string "account_name"
+    t.integer "account_number"
     t.string "bank_code"
     t.string "branch_code"
     t.string "preferred_currency"
