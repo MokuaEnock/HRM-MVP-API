@@ -22,6 +22,6 @@ class DisciplinesController < ApplicationController
   private
 
   def dis_params
-    params.permit(:employee_id, :name, :date, :description, :verdict)
+    params.permit(:employee_id, :name, :date, :description, :verdict, :type, :verdict, :employee_statement, :reason, :action_taken, :verbal_warning, :written_warning, :suspension, :termination, :suspension_start, :suspension_end, :suspension_reason)
   end
 end

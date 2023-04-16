@@ -3,6 +3,14 @@ class CreateDisciplines < ActiveRecord::Migration[7.0]
     create_table :disciplines do |t|
       t.references :employee, null: false, foreign_key: true
       t.integer :points, default: 0
+
+      t.string :name
+      t.string :description
+      t.string :reported_date
+      t.string :reported_date
+      t.string :type
+      t.string :verdict
+      t.string :employee_statement
       t.string :reason
       t.string :action_taken
       t.boolean :verbal_warning, default: false
