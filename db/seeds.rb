@@ -55,14 +55,13 @@ employeeinsurance2 = Employeeinsuarance.create!(
   end_date: Date.today + 1.year,
 )
 
-
 # Seed data for employeework 1
 employeework1 = Employeework.create!(
   employee_id: 1,
   basic_salary: 800,
   employee_role: "Software Engineer",
   employee_number: "JD001",
-  employee_job_group: "Level 2"
+  employee_job_group: "Level 2",
 )
 
 # Seed data for employeework 2
@@ -71,7 +70,7 @@ employeework2 = Employeework.create!(
   basic_salary: 700,
   employee_role: "Project Manager",
   employee_number: "JS001",
-  employee_job_group: "Level 3"
+  employee_job_group: "Level 3",
 )
 
 # Attendance data
@@ -97,5 +96,12 @@ dates.each do |date|
     attendance.save
   end
 end
+
+#employee tasks data
+
+Employeetask.create(employee_id: 1, name: "Design landing page", description: "Create wireframes and mockups for a new landing page design", start: "2023-04-16 09:00:00", end: "2023-04-17 17:00:00", status: 0, priority: 1, estimated_hours: 8, actual_hours: 6, due_date: "2023-04-18 09:00:00")
+Employeetask.create(employee_id: 1, name: "Write blog post", description: "Research and write a blog post about best practices for website design", start: "2023-04-18 10:00:00", end: "2023-04-19 15:00:00", status: 1, priority: 2, estimated_hours: 6, actual_hours: 7, due_date: "2023-04-20 10:00:00")
+Employeetask.create(employee_id: 2, name: "Update website copy", description: "Review and update website copy to reflect new company messaging", start: "2023-04-16 12:00:00", end: "2023-04-16 17:00:00", status: 2, priority: 0, estimated_hours: 4, actual_hours: 4, due_date: "2023-04-18 12:00:00")
+Employeetask.create(employee_id: 2, name: "Create social media posts", description: "Design and write copy for social media posts promoting our new product launch", start: "2023-04-19 10:00:00", end: "2023-04-20 14:00:00", status: 0, priority: 1, estimated_hours: 8, actual_hours: 0, due_date: "2023-04-21 10:00:00")
 
 puts "done seeding"

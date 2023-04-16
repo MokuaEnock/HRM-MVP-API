@@ -7,7 +7,7 @@ class EmployeeSerializer < ActiveModel::Serializer
   has_many :employeelocations
   has_one :employeefinancial
   has_many :employeetasks
-  has_many :disciplinaries
+  has_many :disciplines
   has_many :employeesaccos
   has_many :employeeinsuarances
 end
