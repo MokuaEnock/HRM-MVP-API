@@ -16,6 +16,6 @@ class EmployeetasksController < ApplicationController
   private
 
   def task_params
-    params.permit(:employee_id, :name, :description, :start, :end)
+    params.permit(:employee_id, :name, :description, :start, :end, :status, :priority, :estimated_hours, :actual_hours, :due_date)
   end
 end
