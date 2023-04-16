@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_15_013717) do
   create_table "attendances", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.decimal "total_worked_hours", precision: 10, scale: 2, default: "0.0", null: false
@@ -45,15 +45,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
     t.index ["employer_id"], name: "index_departments_on_employer_id"
   end
 
-  create_table "disciplinaries", force: :cascade do |t|
+  create_table "disciplines", force: :cascade do |t|
     t.integer "employee_id", null: false
-    t.string "type"
-    t.date "date"
+    t.integer "points", default: 0
+    t.string "name"
     t.string "description"
+    t.string "reported_date"
+    t.string "type"
     t.string "verdict"
+    t.string "employee_statement"
+    t.string "reason"
+    t.string "action_taken"
+    t.boolean "verbal_warning", default: false
+    t.boolean "written_warning", default: false
+    t.boolean "suspension", default: false
+    t.boolean "termination", default: false
+    t.string "suspension_reason"
+    t.datetime "suspension_start"
+    t.datetime "suspension_end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_disciplinaries_on_employee_id"
+    t.index ["employee_id"], name: "index_disciplines_on_employee_id"
   end
 
   create_table "employeebanks", force: :cascade do |t|
@@ -184,6 +196,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
     t.string "description"
     t.datetime "start"
     t.datetime "end"
+    t.integer "status", default: 0
+    t.integer "priority", default: 0
+    t.integer "estimated_hours"
+    t.integer "actual_hours"
+    t.datetime "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employeetasks_on_employee_id"
@@ -276,10 +293,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
     t.index ["employee_id"], name: "index_payslips_on_employee_id"
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.integer "Employee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["Employee_id"], name: "index_ratings_on_Employee_id"
+  end
+
   add_foreign_key "attendances", "employees"
   add_foreign_key "departmentdetails", "departments"
   add_foreign_key "departments", "employers"
-  add_foreign_key "disciplinaries", "employees"
+  add_foreign_key "disciplines", "employees"
   add_foreign_key "employeebanks", "employees"
   add_foreign_key "employeecontacts", "employees"
   add_foreign_key "employeecurrents", "employees"
@@ -298,4 +322,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_020701) do
   add_foreign_key "employerlocations", "employers"
   add_foreign_key "payrates", "employers"
   add_foreign_key "payslips", "employees"
+  add_foreign_key "ratings", "Employees"
 end
