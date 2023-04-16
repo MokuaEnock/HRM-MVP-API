@@ -104,4 +104,42 @@ Employeetask.create(employee_id: 1, name: "Write blog post", description: "Resea
 Employeetask.create(employee_id: 2, name: "Update website copy", description: "Review and update website copy to reflect new company messaging", start: "2023-04-16 12:00:00", end: "2023-04-16 17:00:00", status: 2, priority: 0, estimated_hours: 4, actual_hours: 4, due_date: "2023-04-18 12:00:00")
 Employeetask.create(employee_id: 2, name: "Create social media posts", description: "Design and write copy for social media posts promoting our new product launch", start: "2023-04-19 10:00:00", end: "2023-04-20 14:00:00", status: 0, priority: 1, estimated_hours: 8, actual_hours: 0, due_date: "2023-04-21 10:00:00")
 
+Employeedetail.create!(
+  employee_id: 1,
+  first_name: "John",
+  second_name: "Doe",
+  third_name: "Smith",
+  national_id: first_employee_national_id,
+  gender: "male",
+)
+
+Employeebank.create!(
+  employee_id: 2,
+  bank_name: "ABC Bank",
+  branch_name: "Nairobi",
+  account_name: "John Doe",
+  bank_code: "12345",
+  branch_code: "67890",
+  preferred_currency: "KES",
+)
+
+Employeedetail.create!(
+  employee_id: 1,
+  first_name: "Jane",
+  second_name: "Doe",
+  third_name: "Kariuki",
+  national_id: second_employee_national_id,
+  gender: "female",
+)
+
+Employeebank.create!(
+  employee_id: 2,
+  bank_name: "XYZ Bank",
+  branch_name: "Mombasa",
+  account_name: "Jane Doe",
+  bank_code: "54321",
+  branch_code: "09876",
+  preferred_currency: "USD",
+)
+
 puts "done seeding"
