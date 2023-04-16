@@ -6,7 +6,8 @@ class CreateDisciplines < ActiveRecord::Migration[7.0]
 
       t.string :name
       t.string :description
-      t.string :reported_date
+      t.date :reported_date
+      t.date :occurence_date
       t.string :type
       t.string :verdict
       t.string :employee_statement
@@ -17,8 +18,8 @@ class CreateDisciplines < ActiveRecord::Migration[7.0]
       t.boolean :suspension, default: false
       t.boolean :termination, default: false
       t.string :suspension_reason
-      t.datetime :suspension_start
-      t.datetime :suspension_end
+      t.date :suspension_start
+      t.date :suspension_end
 
       t.timestamps
     end

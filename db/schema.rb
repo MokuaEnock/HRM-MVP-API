@@ -50,7 +50,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013717) do
     t.integer "points", default: 0
     t.string "name"
     t.string "description"
-    t.string "reported_date"
+    t.date "reported_date"
+    t.date "occurence_date"
     t.string "type"
     t.string "verdict"
     t.string "employee_statement"
@@ -61,8 +62,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013717) do
     t.boolean "suspension", default: false
     t.boolean "termination", default: false
     t.string "suspension_reason"
-    t.datetime "suspension_start"
-    t.datetime "suspension_end"
+    t.date "suspension_start"
+    t.date "suspension_end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_disciplines_on_employee_id"
