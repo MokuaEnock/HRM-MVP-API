@@ -92,6 +92,41 @@ class PayslipsController < ApplicationController
     render json: payslip_totals
   end
 
+  def generate_data
+    # find the most recent complete pay period
+    payslip_period = Payslip.select(:payslip_period).distinct.order(payslip_period: :desc).first.payslip_period
+
+    # get all employees who have a payslip in the most recent complete pay period
+    employees = Employee.joins(:payslips).where(payslips: { payslip_period: payslip_period }).distinct
+
+    # initialize an array to hold the generated data for each employee
+    data = []
+
+    employees.each do |employee|
+      # get the employee's details
+      employee_details = employee.employee_details.first
+
+      # get the employee's bank details
+      employee_banks = employee.employee_banks.first
+
+      # get the payslip for the most recent complete pay period
+      payslip = employee.payslips.where(payslip_period: payslip_period).first
+
+      # add the generated data to the array
+      data << {
+        employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
+        bank_name: employee_banks.bank_name,
+        bank_code: employee_banks.bank_code,
+        bank_account_number: employee_banks.bank_account_number,
+        branch_name: employee_banks.branch_name,
+        payroll_number: payslip.id,
+        net_salary: payslip.net_salary,
+      }
+    end
+
+    render json: data, status: :ok
+  end
+
   private
 
   def pay_params

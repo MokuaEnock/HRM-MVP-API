@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   get "payslip/:id", to: "payslips#payslip"
   post "departments_all", to: "departments#create_multiple"
   post "employees_all", to: "employees#create_multiple"
+  get "/payslips/generate_data", to: "payslips#generate_data"
+
   # mount SwaggerUiEngine::Engine, at: "/api-docs"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
