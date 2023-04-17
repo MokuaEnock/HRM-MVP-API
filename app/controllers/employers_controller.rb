@@ -23,13 +23,18 @@ class EmployersController < ApplicationController
     total_gross_salary = 0
     total_net_salary = 0
     total_deductions = 0
+    total_absent_days = 0
+    total_present_days = 0
 
     employer.departments.each do |department|
-      total_employees += department.employees.count
       department.employees.each do |employee|
-        total_gross_salary += employee.payslips.sum(:gross_salary)
-        total_net_salary += employee.payslips.sum(:net_salary)
-        total_deductions += (employee.payslips.sum(:nhif) + employee.payslips.sum(:nssf) + employee.payslips.sum(:paye) + employee.payslips.sum(:sacco) + employee.payslips.sum(:insurance))
+        total_employees += 1
+        payslips = employee.payslips
+        total_gross_salary += payslips.sum(:gross_salary)
+        total_net_salary += payslips.sum(:net_salary)
+        total_deductions += (payslips.sum(:nhif) + payslips.sum(:nssf) + payslips.sum(:paye) + payslips.sum(:sacco) + payslips.sum(:insurance))
+        total_absent_days += payslips.sum(:days_absent)
+        total_present_days += payslips.sum(:days_present)
       end
     end
 
@@ -37,7 +42,9 @@ class EmployersController < ApplicationController
       total_employees: total_employees,
       total_gross_salary: total_gross_salary,
       total_net_salary: total_net_salary,
-      total_deductions: total_gross_salary - total_net_salary,
+      total_deductions: total_deductions,
+      total_absent_days: total_absent_days,
+      total_present_days: total_present_days,
     }
   end
 
@@ -52,6 +59,8 @@ class EmployersController < ApplicationController
           gender: employee.employeedetail.gender,
           employee_number: employee.employeework.employee_number,
           department: department.name,
+          total_absent_days: employee.payslips.sum(:days_absent),
+          total_present_days: employee.payslips.sum(:days_present),
         }
         employees << employee_data
       end
