@@ -110,6 +110,15 @@ class EmployeesController < ApplicationController
     render json: result
   end
 
+  def average_rating
+    employee = Employee.find(params[:id])
+    payslips = employee.payslips
+    rating_sum = payslips.sum(:rating)
+    average_rating = payslips.count > 0 ? rating_sum.to_f / payslips.count : 0
+
+    render json: { average_rating: average_rating }
+  end
+
   private
 
   def employee_params
