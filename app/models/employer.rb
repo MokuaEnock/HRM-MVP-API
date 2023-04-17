@@ -10,13 +10,4 @@ class Employer < ApplicationRecord
   has_many :employeeschedules
   has_many :employees, through: :departments
   has_many :payrates
-
-  def total_employees
-    total = 0
-    departments.each do |department|
-      total += department.employees.count
-    end
-  end
-
-  
 end

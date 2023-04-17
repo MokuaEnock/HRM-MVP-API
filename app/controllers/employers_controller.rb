@@ -17,6 +17,17 @@ class EmployersController < ApplicationController
     render json: @employer, serializer: EmployerSerializer
   end
 
+  def total_employees
+    employer = Employer.find(params[:id])
+    total_employees = 0
+
+    employer.departments.each do |department|
+      total_employees += department.employees.count
+    end
+
+    render json: { total_employees: total_employees }
+  end
+
   private
 
   def employer_params
