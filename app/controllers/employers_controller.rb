@@ -41,6 +41,25 @@ class EmployersController < ApplicationController
     }
   end
 
+  def all_employees
+    employer = Employer.find(params[:id])
+    employees = []
+
+    employer.departments.each do |department|
+      department.employees.each do |employee|
+        employee_data = {
+          name: "#{employee.employeedetail.first_name} #{employee.employeedetail.second_name} #{employee.employeedetail.third_name}",
+          gender: employee.employeedetail.gender,
+          employee_number: employee.employeework.employee_number,
+          department: department.name,
+        }
+        employees << employee_data
+      end
+    end
+
+    render json: { employees: employees }
+  end
+
   private
 
   def employer_params

@@ -295,6 +295,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013641) do
     t.integer "punctuality_score"
     t.integer "rating"
     t.string "performance"
+    t.integer "days_present"
+    t.integer "days_absent"
+    t.integer "days_total"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_payslips_on_employee_id"

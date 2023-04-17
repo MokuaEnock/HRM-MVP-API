@@ -16,9 +16,12 @@ class CreatePayslips < ActiveRecord::Migration[7.0]
       t.decimal :insurance, precision: 10, scale: 2, null: false
       t.integer :discipline_score
       t.integer :attendance_score
-      t.integer :punctuality_score 
+      t.integer :punctuality_score
       t.integer :rating
       t.string :performance
+      t.integer :days_present
+      t.integer :days_absent
+      t.integer :days_total
 
       t.timestamps
     end
