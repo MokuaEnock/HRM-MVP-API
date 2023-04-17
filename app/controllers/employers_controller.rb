@@ -32,20 +32,22 @@ class EmployersController < ApplicationController
         payslips = employee.payslips
         total_gross_salary += payslips.sum(:gross_salary)
         total_net_salary += payslips.sum(:net_salary)
-        total_deductions += (payslips.sum(:nhif) + payslips.sum(:nssf) + payslips.sum(:paye) + payslips.sum(:sacco) + payslips.sum(:insurance))
+        # total_deductions += (payslips.sum(:nhif) + payslips.sum(:nssf) + payslips.sum(:paye) + payslips.sum(:sacco) + payslips.sum(:insurance))
         total_absent_days += payslips.sum(:days_absent)
         total_present_days += payslips.sum(:days_present)
       end
     end
 
-    render json: {
+    total = [
       total_employees: total_employees,
       total_gross_salary: total_gross_salary,
       total_net_salary: total_net_salary,
-      total_deductions: total_deductions,
+      total_deductions: total_gross_salary - total_net_salary,
       total_absent_days: total_absent_days,
       total_present_days: total_present_days,
-    }
+    ]
+
+    render json: total
   end
 
   def all_employees
@@ -57,12 +59,13 @@ class EmployersController < ApplicationController
         employee_data = {
           name: "#{employee.employeedetail.first_name} #{employee.employeedetail.second_name} #{employee.employeedetail.third_name}",
           gender: employee.employeedetail.gender,
+          id: employee.id,
           employee_number: employee.employeework.employee_number,
           department: department.name,
           total_absent_days: employee.payslips.sum(:days_absent),
           total_present_days: employee.payslips.sum(:days_present),
-          total_gross_pay:employee.payslips.sum(:gross_salary),
-          total_net_pay:employee.payslips.sum(:net_salary)
+          total_gross_pay: employee.payslips.sum(:gross_salary),
+          total_net_pay: employee.payslips.sum(:net_salary),
         }
         employees << employee_data
       end
