@@ -76,12 +76,13 @@ class PayslipsController < ApplicationController
         nssf_deduction: payslip.nssf,
         paye: payslip.paye,
         nhif: payslip.nhif,
+        insurance: payslip.insurance,
         sacco: payslip.sacco,
         pay_no: payslip.id,
-        week_dates: week_dates,
+        week_dates: week_dates.map { |date| date.strftime("%m-%d") },
         week_pay: week_pay,
-        week_one: (payslip.start_date..payslip.start_date + 6).to_a,
-        week_two: (payslip.start_date + 7..payslip.end_date).to_a,
+        week_one: (payslip.start_date..payslip.start_date + 6).to_a.map { |date| date.strftime("%m-%d") },
+        week_two: (payslip.start_date + 7..payslip.end_date).to_a.map { |date| date.strftime("%m-%d") },
         employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
       }
       payslip_data << payslip_hash
