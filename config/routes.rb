@@ -29,7 +29,10 @@ Rails.application.routes.draw do
   resources :employers
   get "/attendance_summary/:id", to: "attendances#attendance_summary"
   get "/payslips/cpt/:id", to: "payslips#calculate_payslip_totals"
-  get "payslip/:id", to: "payslips#employee_payslips"
+  get "employee_payslip/:id", to: "payslips#employee_payslips"
+  get "department_payslip/:id", to: "payslips#departments_payslips"
+  get "employer_payslip/:id", to: "payslips#employer_payslips"
+
   post "departments_all", to: "departments#create_multiple"
   post "employees_all", to: "employees#create_multiple"
   get "/generate_data", to: "payslips#generate_data"
