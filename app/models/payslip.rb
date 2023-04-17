@@ -214,5 +214,32 @@ class Payslip < ApplicationRecord
     payslips_data
   end
 
+  def create_rating
+    discipline_score = 100
+    attendance_score = 100
+    punctuality_score = 100
+
+    # Calculate discipline score
+    discipline_count = Discipline.where(employee_id: self.employee_id).where("occurence_date < ?", self.start_date).count
+    discipline_score = [100 - (10 * discipline_count), 0].max if discipline_count > 0
+
+    # Calculate attendance score
+    attendance_count = 0
+    current_date = self.start_date
+    while current_date <= self.end_date
+      attendance = Attendance.find_by(employee_id: self.employee_id, date: current_date)
+      attendance_count += 1 if attendance && !attendance.reason.present?
+      current_date += 1.day
+    end
+    attendance_score = [100 - (10 * (attendance_count - 1)), 0].max if attendance_count < 5
+
+    # Calculate punctuality score
+    attendance = Attendance.where(employee_id: self.employee_id, date: self.start_date..self.end_date).first
+    total_hours_worked = attendance&.total_worked_hours || 0
+    punctuality_score = [100 - (10 * ([total_hours_worked, 38].min - 34)), 0].max if total_hours_worked < 38
+
+    self.rating = [discipline_score, attendance_score, punctuality_score].sum / 3
+    self.save
+  end
   
 end
