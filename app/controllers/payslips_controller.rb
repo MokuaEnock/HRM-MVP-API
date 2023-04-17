@@ -56,6 +56,7 @@ class PayslipsController < ApplicationController
     employee_id = params[:id]
     payslips = Payslip.where(employee_id: employee_id)
     employee_work = Employeework.find_by(employee_id: employee_id)
+    employee_details = Employeedetail.find_by(employee_id: employee_id)
     payslip_data = []
     payslips.each do |payslip|
       attendance_data = calculate_attendance_data(payslip.start_date, payslip.end_date, employee_id)
@@ -76,10 +77,12 @@ class PayslipsController < ApplicationController
         paye: payslip.paye,
         nhif: payslip.nhif,
         sacco: payslip.sacco,
+        pay_no: payslip.id,
         week_dates: week_dates,
         week_pay: week_pay,
         week_one: (payslip.start_date..payslip.start_date + 6).to_a,
         week_two: (payslip.start_date + 7..payslip.end_date).to_a,
+        employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
       }
       payslip_data << payslip_hash
     end

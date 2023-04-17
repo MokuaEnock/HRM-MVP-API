@@ -234,7 +234,7 @@ class Payslip < ApplicationRecord
     punctuality_score = if total_hours_worked >= 38
         100
       else
-        [100 - ((38 - total_hours_worked) * 10), 0].max
+        [100 - ((38 - total_hours_worked) * 5), 0].max
       end
 
     self.discipline_score = discipline_score
