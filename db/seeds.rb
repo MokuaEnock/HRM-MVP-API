@@ -74,8 +74,8 @@ employeework2 = Employeework.create!(
 )
 
 # Attendance data
-# Create an array of all the dates from January 1st until today, excluding Sundays and occasional Saturdays
-dates = (Date.parse("2023-01-01")..Date.today).select { |date| date.on_weekday? || (date.saturday? && rand(10) < 3) }.reject { |date| date.sunday? }
+# Create an array of all the dates from January 1st until today, excluding Sundays and occasionally skipping a weekday
+dates = (Date.parse("2023-01-01")..Date.today).select { |date| date.on_weekday? && rand(10) < 9 || (date.saturday? && rand(10) < 3) }.reject { |date| date.sunday? }
 
 # Define the minimum and maximum hours an employee can attend in a day
 MINIMUM_ATTENDANCE_HOURS = 7
@@ -96,6 +96,7 @@ dates.each do |date|
     attendance.save
   end
 end
+
 
 #employee tasks data
 
