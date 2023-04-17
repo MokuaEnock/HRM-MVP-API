@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get "/total_employees/:id", to: "employers#total_employees"
   get "/all_employees/:id", to: "employers#all_employees"
   get "/rating/:id", to: "employees#average_rating"
+  get "/download_pay/:id", to: "departments#download_pay"
 
   # mount SwaggerUiEngine::Engine, at: "/api-docs"
 
