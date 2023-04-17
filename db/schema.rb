@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_15_013717) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_15_013641) do
   create_table "attendances", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.decimal "total_worked_hours", precision: 10, scale: 2, default: "0.0", null: false
@@ -290,16 +290,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013717) do
     t.integer "net_salary"
     t.decimal "sacco", precision: 10, scale: 2, null: false
     t.decimal "insurance", precision: 10, scale: 2, null: false
+    t.integer "rating"
+    t.string "performance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_payslips_on_employee_id"
-  end
-
-  create_table "ratings", force: :cascade do |t|
-    t.integer "Employee_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["Employee_id"], name: "index_ratings_on_Employee_id"
   end
 
   add_foreign_key "attendances", "employees"
@@ -324,5 +319,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013717) do
   add_foreign_key "employerlocations", "employers"
   add_foreign_key "payrates", "employers"
   add_foreign_key "payslips", "employees"
-  add_foreign_key "ratings", "Employees"
 end

@@ -14,6 +14,8 @@ class CreatePayslips < ActiveRecord::Migration[7.0]
       t.integer :net_salary
       t.decimal :sacco, precision: 10, scale: 2, null: false
       t.decimal :insurance, precision: 10, scale: 2, null: false
+      t.integer :rating
+      t.string :performance
 
       t.timestamps
     end
