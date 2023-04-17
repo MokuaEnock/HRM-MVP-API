@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get "/generate_data", to: "payslips#generate_data"
   get "/total_employees/:id", to: "employers#total_employees"
   get "/all_employees/:id", to: "employers#all_employees"
+  get "/rating/:id", to: "employees#average_rating"
 
   # mount SwaggerUiEngine::Engine, at: "/api-docs"
 
