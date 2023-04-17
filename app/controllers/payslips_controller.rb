@@ -90,6 +90,99 @@ class PayslipsController < ApplicationController
     render json: { payslips: payslip_data }
   end
 
+  def department_payslips
+    department_id = params[:id]
+    payslip_data = []
+    employees = Employee.where(department_id: department_id)
+
+    # Find the latest pay period
+    latest_pay_period = Payslip.order("end_date DESC").first
+    start_date = latest_pay_period.start_date
+    end_date = latest_pay_period.end_date
+
+    employees.each do |employee|
+      payslips = Payslip.where(employee_id: employee.id, start_date: start_date, end_date: end_date)
+      employee_work = Employeework.find_by(employee_id: employee.id)
+      employee_details = Employeedetail.find_by(employee_id: employee.id)
+
+      payslips.each do |payslip|
+        attendance_data = calculate_attendance_data(payslip.start_date, payslip.end_date, employee.id)
+        week_dates = (payslip.start_date..payslip.end_date).to_a
+        week_pay = []
+
+        week_dates.each do |date|
+          if attendance_data[:hours_worked][attendance_data[:dates].index(date)]
+            week_pay << attendance_data[:pay][attendance_data[:dates].index(date)]
+          else
+            week_pay << 0
+          end
+        end
+
+        payslip_hash = {
+          basic_salary: employee_work.basic_salary,
+          gross_salary: payslip.gross_salary,
+          net_salary: payslip.net_salary,
+          nssf_deduction: payslip.nssf,
+          paye: payslip.paye,
+          nhif: payslip.nhif,
+          insurance: payslip.insurance,
+          sacco: payslip.sacco,
+          pay_no: payslip.id,
+          week_dates: week_dates.map { |date| date.strftime("%m-%d") },
+          week_pay: week_pay,
+          week_one: (payslip.start_date..payslip.start_date + 6).to_a.map { |date| date.strftime("%m-%d") },
+          week_two: (payslip.start_date + 7..payslip.end_date).to_a.map { |date| date.strftime("%m-%d") },
+          employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
+        }
+
+        payslip_data << payslip_hash
+      end
+    end
+
+    render json: { payslips: payslip_data }
+  end
+
+  def employer_payslips
+    department_id = params[:id]
+    payslips = []
+    Employee.where(department_id: department_id).each do |employee|
+      payslip = employee.payslips.last
+      next if payslip.nil?
+
+      employee_work = employee.employeework
+      employee_details = employee.employeedetail
+      attendance_data = calculate_attendance_data(payslip.start_date, payslip.end_date, employee.id)
+      week_dates = (payslip.start_date..payslip.end_date).to_a
+      week_pay = []
+      week_dates.each do |date|
+        if attendance_data[:hours_worked][attendance_data[:dates].index(date)]
+          week_pay << attendance_data[:pay][attendance_data[:dates].index(date)]
+        else
+          week_pay << 0
+        end
+      end
+      payslip_hash = {
+        basic_salary: employee_work.basic_salary,
+        gross_salary: payslip.gross_salary,
+        net_salary: payslip.net_salary,
+        nssf_deduction: payslip.nssf,
+        paye: payslip.paye,
+        nhif: payslip.nhif,
+        insurance: payslip.insurance,
+        sacco: payslip.sacco,
+        pay_no: payslip.id,
+        week_dates: week_dates.map { |date| date.strftime("%m-%d") },
+        week_pay: week_pay,
+        week_one: (payslip.start_date..payslip.start_date + 6).to_a.map { |date| date.strftime("%m-%d") },
+        week_two: (payslip.start_date + 7..payslip.end_date).to_a.map { |date| date.strftime("%m-%d") },
+        employee_name: "#{employee_details.first_name} #{employee_details.second_name} #{employee_details.third_name}",
+      }
+      payslips << payslip_hash
+    end
+    render json: { payslips: payslips }
+  end
+
+
   def totals
     payslips = Payslip.all
     gross_salary_total = payslips.sum(:gross_salary)
