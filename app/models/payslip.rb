@@ -1,4 +1,5 @@
 class Payslip < ApplicationRecord
+  after_create :calculate_days_present_and_absent
   after_create :create_rating
   belongs_to :employee
   validate :start_and_end_dates
@@ -250,5 +251,20 @@ class Payslip < ApplicationRecord
     self.punctuality_score = punctuality_score
     self.rating = (discipline_score * 0.5) + (attendance_score * 0.3) + (punctuality_score * 0.2)
     self.save
+  end
+
+  def calculate_days_present_and_absent
+    # Calculate total days in the pay period
+    total_days = (self.end_date - self.start_date).to_i + 1
+    weekdays = (self.start_date..self.end_date).select { |day| (1..5).include?(day.wday) }
+    total_weekdays = weekdays.count
+
+    # Calculate days present and absent
+    present_dates = self.employee.attendances.where(date: weekdays).pluck(:date).to_set
+    days_present = present_dates.count
+    days_absent = total_weekdays - days_present
+
+    # Update the Payslip record
+    self.update(days_present: days_present, days_absent: days_absent, days_total: total_weekdays)
   end
 end
