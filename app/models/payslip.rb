@@ -1,4 +1,5 @@
 class Payslip < ApplicationRecord
+  after_create :create_rating
   belongs_to :employee
   validate :start_and_end_dates
 
@@ -224,22 +225,30 @@ class Payslip < ApplicationRecord
     discipline_score = [100 - (10 * discipline_count), 0].max if discipline_count > 0
 
     # Calculate attendance score
-    attendance_count = 0
+    weekdays_missed = 0
+    total_weekdays = (self.start_date..self.end_date).count { |date| date.on_weekday? }
     current_date = self.start_date
     while current_date <= self.end_date
       attendance = Attendance.find_by(employee_id: self.employee_id, date: current_date)
-      attendance_count += 1 if attendance && !attendance.reason.present?
+      if attendance && !attendance.reason.present? && attendance.date.on_weekday?
+        weekdays_missed += 1
+      end
       current_date += 1.day
     end
-    attendance_score = [100 - (10 * (attendance_count - 1)), 0].max if attendance_count < 5
+    attendance_score = [100 - (weekdays_missed * 10.0 / total_weekdays), 0].max if total_weekdays > 0
 
     # Calculate punctuality score
-    attendance = Attendance.where(employee_id: self.employee_id, date: self.start_date..self.end_date).first
-    total_hours_worked = attendance&.total_worked_hours || 0
-    punctuality_score = [100 - (10 * ([total_hours_worked, 38].min - 34)), 0].max if total_hours_worked < 38
+    total_hours_worked = Attendance.where(employee_id: self.employee_id, date: self.start_date..self.end_date).sum(:total_worked_hours)
+    punctuality_score = if total_hours_worked >= 38
+        100
+      else
+        [100 - ((38 - total_hours_worked) * 10), 0].max
+      end
 
-    self.rating = [discipline_score, attendance_score, punctuality_score].sum / 3
+    self.discipline_score = discipline_score
+    self.attendance_score = attendance_score
+    self.punctuality_score = punctuality_score
+    self.rating = (discipline_score * 0.5) + (attendance_score * 0.3) + (punctuality_score * 0.2)
     self.save
   end
-  
 end

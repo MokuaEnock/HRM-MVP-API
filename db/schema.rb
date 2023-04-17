@@ -290,6 +290,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013641) do
     t.integer "net_salary"
     t.decimal "sacco", precision: 10, scale: 2, null: false
     t.decimal "insurance", precision: 10, scale: 2, null: false
+    t.integer "discipline_score"
+    t.integer "attendance_score"
+    t.integer "punctuality_score"
     t.integer "rating"
     t.string "performance"
     t.datetime "created_at", null: false
