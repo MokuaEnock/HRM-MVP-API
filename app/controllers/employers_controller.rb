@@ -61,6 +61,8 @@ class EmployersController < ApplicationController
           department: department.name,
           total_absent_days: employee.payslips.sum(:days_absent),
           total_present_days: employee.payslips.sum(:days_present),
+          total_gross_pay:employee.payslips.sum(:gross_salary),
+          total_net_pay:employee.payslips.sum(:net_salary)
         }
         employees << employee_data
       end

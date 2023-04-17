@@ -226,17 +226,8 @@ class Payslip < ApplicationRecord
     discipline_score = [100 - (10 * discipline_count), 0].max if discipline_count > 0
 
     # Calculate attendance score
-    weekdays_missed = 0
-    total_weekdays = (self.start_date..self.end_date).count { |date| date.on_weekday? }
-    current_date = self.start_date
-    while current_date <= self.end_date
-      attendance = Attendance.find_by(employee_id: self.employee_id, date: current_date)
-      if attendance && !attendance.reason.present? && attendance.date.on_weekday?
-        weekdays_missed += 1
-      end
-      current_date += 1.day
-    end
-    attendance_score = [100 - (weekdays_missed * 10.0 / total_weekdays), 0].max if total_weekdays > 0
+    weekdays_missed = self.days_absent
+    attendance_score = 100 - (weekdays_missed * 10)
 
     # Calculate punctuality score
     total_hours_worked = Attendance.where(employee_id: self.employee_id, date: self.start_date..self.end_date).sum(:total_worked_hours)
