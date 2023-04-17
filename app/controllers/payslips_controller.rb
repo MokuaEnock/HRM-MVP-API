@@ -52,6 +52,40 @@ class PayslipsController < ApplicationController
     render json: payslip_data, status: :ok
   end
 
+  def employee_payslips
+    employee_id = params[:id]
+    payslips = Payslip.where(employee_id: employee_id)
+    employee_work = Employeework.find_by(employee_id: employee_id)
+    payslip_data = []
+    payslips.each do |payslip|
+      attendance_data = calculate_attendance_data(payslip.start_date, payslip.end_date, employee_id)
+      week_dates = (payslip.start_date..payslip.end_date).to_a
+      week_pay = []
+      week_dates.each do |date|
+        if attendance_data[:hours_worked][attendance_data[:dates].index(date)]
+          week_pay << attendance_data[:pay][attendance_data[:dates].index(date)]
+        else
+          week_pay << 0
+        end
+      end
+      payslip_hash = {
+        basic_salary: employee_work.basic_salary,
+        gross_salary: payslip.gross_salary,
+        net_salary: payslip.net_salary,
+        nssf_deduction: payslip.nssf,
+        paye: payslip.paye,
+        nhif: payslip.nhif,
+        sacco: payslip.sacco,
+        week_dates: week_dates,
+        week_pay: week_pay,
+        week_one: (payslip.start_date..payslip.start_date + 6).to_a,
+        week_two: (payslip.start_date + 7..payslip.end_date).to_a,
+      }
+      payslip_data << payslip_hash
+    end
+    render json: { payslips: payslip_data }
+  end
+
   def totals
     payslips = Payslip.all
     gross_salary_total = payslips.sum(:gross_salary)
@@ -133,5 +167,28 @@ class PayslipsController < ApplicationController
 
   def pay_params
     params.require(:payslip).permit(:employee_id, :start_date, :end_date)
+  end
+
+  def calculate_attendance_data(start_date, end_date, employee_id)
+    attendance_dates = (start_date..end_date).to_a
+    attendances = Attendance.where(employee_id: employee_id, date: start_date..end_date)
+    attendance_hours = {}
+    attendance_pay = {}
+    attendance_dates.each do |date|
+      attendance_hours[date] = 0
+      attendance_pay[date] = 0
+    end
+    attendances.each do |attendance|
+      attendance_hours[attendance.date] = attendance.total_worked_hours
+      attendance_pay[attendance.date] = attendance.pay
+    end
+    attendance_hours = attendance_hours.sort.to_h
+    attendance_pay = attendance_pay.sort.to_h
+    attendance_data = {
+      dates: attendance_hours.keys,
+      hours_worked: attendance_hours.values,
+      pay: attendance_pay.values,
+    }
+    return attendance_data
   end
 end
