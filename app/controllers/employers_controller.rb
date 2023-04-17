@@ -20,12 +20,25 @@ class EmployersController < ApplicationController
   def total_employees
     employer = Employer.find(params[:id])
     total_employees = 0
+    total_gross_salary = 0
+    total_net_salary = 0
+    total_deductions = 0
 
     employer.departments.each do |department|
       total_employees += department.employees.count
+      department.employees.each do |employee|
+        total_gross_salary += employee.payslips.sum(:gross_salary)
+        total_net_salary += employee.payslips.sum(:net_salary)
+        total_deductions += (employee.payslips.sum(:nhif) + employee.payslips.sum(:nssf) + employee.payslips.sum(:paye) + employee.payslips.sum(:sacco) + employee.payslips.sum(:insurance))
+      end
     end
 
-    render json: { total_employees: total_employees }
+    render json: {
+      total_employees: total_employees,
+      total_gross_salary: total_gross_salary,
+      total_net_salary: total_net_salary,
+      total_deductions: total_gross_salary - total_net_salary,
+    }
   end
 
   private
