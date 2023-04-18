@@ -40,6 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_013641) do
     t.string "name"
     t.string "email"
     t.string "password_digest"
+    t.string "department_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employer_id"], name: "index_departments_on_employer_id"
