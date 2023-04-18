@@ -21,21 +21,25 @@ class EmployeesController < ApplicationController
   def create_multiple
     result = []
     params["_json"].each do |item|
-      employer_departments = Department.where(employer_id: item[:employerId])
-      department = employer_departments.find_by(name: item[:department])
+      department = Department.find_by(department_number: item[:department])
 
-      if department
+      if department.present?
+        departmentId = department.id
+
         # Create employee
-        employee = department.employees.create(
-          email: item[:email],
+        employee = Employee.create(
+          department_id: departmentId,
+          email: item[:email_address],
           employee_number: item[:employee_number],
-          password: item[:email],
-          password_confirmation: item[:email],
+          password: item[:email_address],
+          password_confirmation: item[:email_address],
         )
 
         if employee.valid?
+          employeeId = employee.id
           # Create associated records
-          employee.employeebank.create(
+          Employeebank.create(
+            employee_id: employeeId,
             bank_name: item[:bank_name],
             branch_name: item[:branch_name],
             account_name: item[:account_name],
@@ -43,13 +47,15 @@ class EmployeesController < ApplicationController
             branch_code: item[:branch_code],
           )
 
-          employee.employeecontact.create(
+          Employeecontact.create(
+            employee_id: employeeId,
             phone_number: item[:phone_number],
             email_address: item[:email_address],
             whatsapp_number: item[:whatsapp_number],
           )
 
-          employee.employeedetail.create(
+          Employeedetail.create(
+            employee_id: employeeId,
             first_name: item[:first_name],
             second_name: item[:second_name],
             third_name: item[:third_name],
@@ -57,13 +63,15 @@ class EmployeesController < ApplicationController
             national_id: item[:national_id],
           )
 
-          employee.employeefinancial.create(
+          Employeefinancial.create(
+            employee_id: employeeId,
             nssf_number: item[:nssf_number],
             nhif_number: item[:nhif_number],
             kra_pin: item[:kra_pin],
           )
 
-          employee.employeeinsurance.create(
+          Employeeinsuarance.create(
+            employee_id: employeeId,
             name: item[:insurance_company_name],
             registration_number: item[:insurance_registration_number],
             bank_name: item[:insurance_company_bank_name],
@@ -77,14 +85,16 @@ class EmployeesController < ApplicationController
             end_date: item[:contribution_end_date],
           )
 
-          employee.employeelocation.create(
+          Employeelocation.create(
+            employee_id: employeeId,
             country: item[:country],
             county: item[:county],
             subcounty: item[:sub_county],
             location: item[:location],
           )
 
-          employee.employeesacco.create(
+          Employeesacco.create(
+            employee_id: employeeId,
             name: item[:Sacco_name],
             registration_number: item[:sacco_registration_number],
             bank_name: item[:sacco_bank_name],
